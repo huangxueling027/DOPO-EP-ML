@@ -1,0 +1,5 @@
+# Optional model-comparison dependencies.
+# These packages are not required for the frozen manuscript-facing FINAL workflow.
+
+catboost==1.2.8
+tabpfn==2.2.1

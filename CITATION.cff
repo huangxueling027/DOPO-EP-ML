@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software or the curated data workflow, please cite the associated manuscript and this repository."
+title: "DOPO-EP-ML"
+type: software
+version: 1.0.1
+date-released: 2026-09-19
+
+authors:
+  - family-names: "Huang"
+    given-names: "Xueling"
+
+repository-code: "https://github.com/huangxueling027/DOPO-EP-ML"
+
+license: MIT
+
+abstract: >
+  Reproducible machine-learning workflow for DOPO-derived flame-retardant
+  epoxy systems, including literature-derived data standardization,
+  structure–formulation modeling, grouped nested validation, model
+  interpretation, applicability-domain analysis, independent literature-based
+  external validation, and multi-objective virtual screening.
+
+keywords:
+  - DOPO
+  - epoxy resin
+  - flame retardant
+  - machine learning
+  - applicability domain
+  - virtual screening
+  - SHAP

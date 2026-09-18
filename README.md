@@ -6,11 +6,11 @@ Reproducible machine-learning workflow for **DOPO-derived flame-retardant epoxy 
 
 The curated dataset contains:
 
-* 599 standardized experimental records
-* 130 published studies
-* 138 unique main flame retardants
-* 143 standardized main flame-retardant/synergist combinations
-* 117 Murcko scaffolds
+- 599 standardized experimental records
+- 130 published studies
+- 138 unique main flame retardants
+- 143 standardized main flame-retardant/synergist combinations
+- 117 Murcko scaffolds
 
 Original publisher PDFs are not redistributed. The frozen machine-readable dataset and source-traceability fields are provided in `data/`.
 
@@ -22,37 +22,37 @@ The manuscript-facing models use the frozen protocol:
 
 The formal workflow uses:
 
-* 5 outer folds × 5 inner folds
-* molecule-grouped nested cross-validation
-* baseline-inclusive absolute-property modeling
-* Neat-EP leakage-protection masking
-* predefined task-specific feature view and K
-* predictive-model selection only within grouped inner cross-validation
-* primary models without BDE features
+- 5 outer folds × 5 inner folds
+- molecule-grouped nested cross-validation
+- baseline-inclusive absolute-property modeling
+- Neat-EP leakage-protection masking
+- predefined task-specific feature view and K
+- predictive-model selection only within grouped inner cross-validation
+- primary models without BDE features
 
 ### Frozen task configurations
 
-| Task       | Feature view     |   K | Role             |
-| ---------- | ---------------- | --: | ---------------- |
-| LOI        | compact          | 260 | Core             |
-| PHRR       | compact          | 330 | Core             |
-| THR        | descriptors      |  30 | Core             |
-| UL94_V0    | morgan_r3        | ALL | Core             |
-| Tg         | morgan_r3        | 270 | Auxiliary        |
-| TS_MPa     | compact          | 140 | Auxiliary        |
+| Task | Feature view | K | Role |
+|---|---|---:|---|
+| LOI | compact | 260 | Core |
+| PHRR | compact | 330 | Core |
+| THR | descriptors | 30 | Core |
+| UL94_V0 | morgan_r3 | ALL | Core |
+| Tg | morgan_r3 | 270 | Auxiliary |
+| TS_MPa | compact | 140 | Auxiliary |
 | Char_yield | full_interaction | 100 | Exploratory / SI |
-| FS_MPa     | morgan_r3        | 240 | Exploratory / SI |
+| FS_MPa | morgan_r3 | 240 | Exploratory / SI |
 
 ## Main grouped-CV results
 
-| Task      | Primary metric |        Result |
-| --------- | -------------- | ------------: |
-| LOI       | R²             | 0.716 ± 0.036 |
-| PHRR      | R²             | 0.604 ± 0.042 |
-| THR       | R²             | 0.483 ± 0.133 |
-| UL-94 V-0 | Macro-F1       | 0.779 ± 0.031 |
-| Tg        | R²             | 0.521 ± 0.097 |
-| TS        | R²             | 0.462 ± 0.089 |
+| Task | Primary metric | Result |
+|---|---|---:|
+| LOI | R² | 0.716 ± 0.036 |
+| PHRR | R² | 0.604 ± 0.042 |
+| THR | R² | 0.483 ± 0.133 |
+| UL-94 V-0 | Macro-F1 | 0.779 ± 0.031 |
+| Tg | R² | 0.521 ± 0.097 |
+| TS | R² | 0.462 ± 0.089 |
 
 Values are reported as mean ± standard deviation across the outer test folds of the grouped nested cross-validation procedure.
 
@@ -83,16 +83,29 @@ DOPO-EP-ML/
 ├── tools/
 ├── run.py
 ├── requirements.txt
+├── requirements-optional.txt
+├── CITATION.cff
+├── LICENSE
 └── PROJECT_RULES_LOCK.json
 ```
 
 ## Installation
 
-A clean Python environment is recommended.
+The frozen manuscript-facing workflow was validated with **Python 3.12.7**.
+
+Install the dependencies required for the manuscript-facing workflow:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+Optional model-comparison dependencies, including CatBoost and TabPFN, can be installed separately:
+
+```bash
+pip install -r requirements-optional.txt
+```
+
+CatBoost and TabPFN are not required for the frozen FINAL manuscript-facing workflow.
 
 ## Validate the frozen release
 
@@ -156,9 +169,9 @@ after cloning the repository or before reproducing manuscript analyses.
 
 ## Citation
 
-Citation information will be updated after publication.
+Software citation metadata are provided in `CITATION.cff`.
 
-Until then, users reusing the curated data should cite the associated manuscript and the original literature sources represented in the dataset.
+The formal manuscript citation will be added after publication. Until then, users reusing the curated data should cite the associated manuscript and the original literature sources represented in the dataset.
 
 ## License
 
