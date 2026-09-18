@@ -1,0 +1,8 @@
+﻿feature_group,group_label,contribution,contribution_percent
+test_condition,Test conditions,0.0009517589137002,0.17783995831038926
+curing_and_preparation,Curing and preparation,0.003998068738318,0.7470551286777977
+other,Other features,0.0418897375679288,7.827264946488559
+elemental_composition,Elemental composition,0.0505536362140312,9.446149048175712
+formulation_loading,Formulation and loading,0.122379974776108,22.867187581775696
+molecular_descriptor,Molecular descriptors,0.1347725456946633,25.182789005403265
+molecular_fingerprint,Molecular fingerprints,0.1806314805319871,33.75171433116858

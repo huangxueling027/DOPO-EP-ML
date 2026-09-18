@@ -1,0 +1,5 @@
+﻿Stage_Order,Stage,N,Removed_From_Previous
+1,standardization_eligible,2484,0
+2,not_training_duplicate,2463,21
+3,not_existing_duplicate,2411,73
+4,public_unique_candidates,2411,0

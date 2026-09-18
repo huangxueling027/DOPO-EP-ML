@@ -1,0 +1,3 @@
+﻿Sample_ID,Smiles,Bond_Type,Linkage_Type,Target_Bond_Label_clean,Target_Bond_Subtype,Target_X_atom_class,Target_Bond_Count,Potential_PX_Bond_Count,Notes
+example_PC,O=P1(Oc2ccccc2-c2ccccc21)C...,P-C,DOPO-C,DOPO_P-C,,C,,,Replace this row with your real DOPO P-C molecule. For final pc_pn model, Bond_Type should be P-C or P-N.
+example_PN,,P-N,DOPO-N,DOPO_P-N,,N,,,"For prediction, at least Smiles and Bond_Type are required."

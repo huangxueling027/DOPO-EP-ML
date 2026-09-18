@@ -1,0 +1,15 @@
+{
+  "task": "UL94_V0",
+  "task_type": "classification",
+  "view": "morgan_r3",
+  "requested_k": null,
+  "model_name": "ExtraTrees",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "conditions_only",
+  "use_BDE": false,
+  "descriptor_mode": "advanced",
+  "use_V7_formula_features": true,
+  "threshold": 0.5100000000000002
+}

@@ -1,0 +1,17 @@
+{
+  "task": "THR",
+  "task_type": "regression",
+  "view": "descriptors",
+  "requested_k": 30,
+  "model_name": "XGB",
+  "split_strategy": "reference",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "all",
+  "use_BDE": false,
+  "descriptor_mode": "advanced",
+  "use_V7_formula_features": true,
+  "conformal_q": 74.28433532714843,
+  "conformal_alpha": 0.05,
+  "conformal_n_calibration": 79
+}

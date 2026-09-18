@@ -1,0 +1,11 @@
+﻿Final cross-flux rank,Candidate,Design family,Loading at 50 kW m⁻² (wt%),LOI pred. (%),PHRR pred. at 50 kW m⁻²,PHRR pred. at 35 kW m⁻²,THR pred. at 50 kW m⁻² (MJ m⁻²),V-0 probability,Tg pred. (°C),TS pred. (MPa),Rank at 50,Rank at 35
+1,TDCA-DOPO-3-boronic-acid,P-B,10.0,35.38,529.13,523.28,56.37,0.677,154.27,73.18,2,1
+2,PBD-trimethoxysilyl,P-N-Si,5.29,40.97,410.71,436.91,82.11,0.705,189.35,58.78,1,2
+3,PAD-NH-methyl,P-N-S,10.0,36.47,655.51,647.64,62.83,0.695,149.63,73.96,3,3
+4,BDO-hydroxymethyl,P-N-S,10.0,36.2,704.44,692.56,62.6,0.697,148.46,79.75,4,4
+5,PBD-NH-methyl,P-N,10.0,36.47,693.15,687.68,63.67,0.701,157.32,71.0,6,5
+6,DSD-trimethoxysilyl,P-N-Si-S,10.0,42.05,346.96,369.58,75.26,0.659,179.99,59.66,5,6
+7,PAD-carboxamide,P-N-S,10.0,35.9,703.72,695.51,62.83,0.699,150.0,75.1,7,7
+8,DSD-triethoxysilyl,P-N-Si-S,10.0,42.05,367.91,388.13,76.97,0.662,180.22,59.66,8,9
+9,DIB-NH-methyl,P-N,10.0,36.41,709.87,694.51,62.6,0.688,150.38,74.5,10,8
+10,PAD-hydroxymethyl,P-N-S,10.0,35.11,680.75,676.36,62.83,0.703,149.64,75.1,9,11

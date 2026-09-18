@@ -1,0 +1,6 @@
+{
+  "data": "data\\DOPO_EP_new_with_BDE.csv",
+  "results_root": "results",
+  "output": "results\\09_PaperFigures\\main",
+  "dpi": 900
+}

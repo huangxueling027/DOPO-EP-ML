@@ -1,0 +1,7 @@
+{
+  "data": "data\\DOPO_EP_new_with_BDE.csv",
+  "results_root": "results",
+  "task_config": "config\\task_config.json",
+  "output": "results\\09_PaperTables",
+  "top_errors": 20
+}

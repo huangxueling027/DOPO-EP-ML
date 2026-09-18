@@ -1,0 +1,23 @@
+﻿task_type,model,implementation,frozen_parameters,selection_level
+regression,Ridge,Ridge,alpha=1.0,selected within each outer-training set by grouped inner CV
+regression,RF,RandomForestRegressor,n_estimators=350; min_samples_leaf=2,selected within each outer-training set by grouped inner CV
+regression,ExtraTrees,ExtraTreesRegressor,n_estimators=450; min_samples_leaf=2,selected within each outer-training set by grouped inner CV
+regression,GBDT,GradientBoostingRegressor,alpha=0.9; n_estimators=220; max_depth=2; learning_rate=0.03; min_samples_leaf=1; subsample=0.85,selected within each outer-training set by grouped inner CV
+regression,XGB,XGBRegressor,n_estimators=300; max_depth=3; learning_rate=0.03; subsample=0.8; colsample_bytree=0.75; reg_alpha=0.3; reg_lambda=2.0,selected within each outer-training set by grouped inner CV
+regression,LGBM,LGBMRegressor,n_estimators=300; max_depth=-1; learning_rate=0.03; subsample=0.8; colsample_bytree=0.75; num_leaves=11; min_child_samples=12; reg_alpha=0.3; reg_lambda=2.0,selected within each outer-training set by grouped inner CV
+regression,SVR,SVR,C=5.0; epsilon=0.1; kernel=rbf,selected within each outer-training set by grouped inner CV
+regression,SoftVote,VotingRegressor,,selected within each outer-training set by grouped inner CV
+classification,Logistic,LogisticRegression,C=1.0; class_weight=balanced,selected within each outer-training set by grouped inner CV
+classification,RF,RandomForestClassifier,n_estimators=350; min_samples_leaf=2; class_weight=balanced,selected within each outer-training set by grouped inner CV
+classification,ExtraTrees,ExtraTreesClassifier,n_estimators=450; min_samples_leaf=2; class_weight=balanced,selected within each outer-training set by grouped inner CV
+classification,GBDT,GradientBoostingClassifier,n_estimators=220; max_depth=2; learning_rate=0.03; min_samples_leaf=1; subsample=0.85,selected within each outer-training set by grouped inner CV
+classification,XGB,XGBClassifier,n_estimators=300; max_depth=3; learning_rate=0.03; subsample=0.8; colsample_bytree=0.75; reg_alpha=0.3; reg_lambda=2.0,selected within each outer-training set by grouped inner CV
+classification,LGBM,LGBMClassifier,n_estimators=300; max_depth=-1; learning_rate=0.03; subsample=0.8; colsample_bytree=0.75; num_leaves=11; min_child_samples=12; reg_alpha=0.3; reg_lambda=2.0,selected within each outer-training set by grouped inner CV
+classification,SVC,SVC,C=5.0; kernel=rbf; class_weight=balanced; probability=True,selected within each outer-training set by grouped inner CV
+classification,SoftVote,VotingClassifier,voting=soft,selected within each outer-training set by grouped inner CV
+all,Non-empty column selector,preprocessing,Fit on each training fold only,inside nested CV; no test-fold fitting
+all,Median imputation,preprocessing,Fit on each training fold only,inside nested CV; no test-fold fitting
+all,Duplicate-column removal,preprocessing,Fit on each training fold only,inside nested CV; no test-fold fitting
+all,VarianceThreshold,preprocessing,threshold=1e-8; fit on each training fold only,inside nested CV; no test-fold fitting
+all,SelectKBest,preprocessing,f_regression for regression; f_classif for classification,inside nested CV; no test-fold fitting
+linear/kernel,StandardScaler,preprocessing,"Ridge, SVR, Logistic and SVC only",inside nested CV; no test-fold fitting

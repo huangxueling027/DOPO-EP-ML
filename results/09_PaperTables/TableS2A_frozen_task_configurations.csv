@@ -1,0 +1,13 @@
+﻿task,task_type,frozen_view,frozen_k,group_rule,valid_target_n,main_with_BDE,primary_metric
+LOI,regression,compact,260,MAIN_CO,599,False,R²
+PHRR,regression,compact,330,MAIN_CO,406,False,R²
+THR,regression,descriptors,30,MAIN_CO,397,False,R²
+UL94_V0,classification,morgan_r3,all,MAIN_CO,599,False,Macro-F1
+Tg,regression,morgan_r3,270,MAIN_CO_CURING,357,False,R²
+Char_yield,regression,full_interaction,100,MAIN_CO,196,False,R²
+TS_MPa,regression,compact,140,MAIN_CO_CURING,256,False,R²
+FS_MPa,regression,morgan_r3,240,MAIN_CO_CURING,228,False,R²
+Delta_LOI,regression,descriptors,30,MAIN_CO,468,False,R²
+Delta_PHRR,regression,maccs,240,MAIN_CO,289,False,R²
+Delta_THR,regression,descriptors,120,MAIN_CO,283,False,R²
+Delta_CY,regression,descriptors,180,MAIN_CO,148,False,R²

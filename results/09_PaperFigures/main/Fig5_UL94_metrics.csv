@@ -1,0 +1,2 @@
+﻿Accuracy,Balanced_Accuracy,Macro_F1,n,ROC_AUC,evaluation_scope,note,average_precision,positive_class_baseline
+0.7813021702838063,0.7865741685370333,0.7805093635054055,599,0.8559137590967829,pooled outer-of-fold predictions,Table 3 reports five-outer-fold mean ± SD; pooled metrics can differ slightly.,0.7502761469175433,0.4357262103505843

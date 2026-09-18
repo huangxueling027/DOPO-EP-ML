@@ -1,0 +1,7 @@
+﻿Task,Valid records (n),Task type,Frozen feature view,Frozen K,Grouping rule,Main model uses BDE,Primary metric
+LOI,599,regression,compact,260,MAIN_CO,False,R²
+PHRR,406,regression,compact,330,MAIN_CO,False,R²
+THR,397,regression,descriptors,30,MAIN_CO,False,R²
+UL-94,599,classification,morgan_r3,ALL,MAIN_CO,False,Macro-F1
+T_g,357,regression,morgan_r3,270,MAIN_CO_CURING,False,R²
+TS,256,regression,compact,140,MAIN_CO_CURING,False,R²

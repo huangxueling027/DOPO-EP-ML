@@ -1,0 +1,17 @@
+{
+  "task": "LOI",
+  "task_type": "regression",
+  "view": "compact",
+  "requested_k": 260,
+  "model_name": "GBDT",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "all",
+  "use_BDE": true,
+  "descriptor_mode": "basic",
+  "use_V7_formula_features": true,
+  "conformal_q": 6.354673340735008,
+  "conformal_alpha": 0.05,
+  "conformal_n_calibration": 120
+}

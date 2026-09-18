@@ -1,0 +1,6 @@
+﻿task,model_name,view,requested_k,bundle_path,bundle_rebuilt_for_external
+LOI,GBDT,compact,260.0,results\scientific_validation\FINAL_core_fixed_baseline_inclusive_5x5\LOI\molecule\formulation\without_BDE\LOI_final_model_bundle.joblib,0
+PHRR,GBDT,compact,330.0,results\scientific_validation\FINAL_core_fixed_baseline_inclusive_5x5\PHRR\molecule\formulation\without_BDE\PHRR_final_model_bundle.joblib,0
+THR,GBDT,descriptors,30.0,results\scientific_validation\FINAL_core_fixed_baseline_inclusive_5x5\THR\molecule\formulation\without_BDE\THR_final_model_bundle.joblib,0
+UL94_V0,ExtraTrees,morgan_r3,,results\scientific_validation\FINAL_core_fixed_baseline_inclusive_5x5\UL94_V0\molecule\formulation\without_BDE\UL94_V0_final_model_bundle.joblib,0
+TS_MPa,GBDT,compact,140.0,results\scientific_validation\FINAL_aux_fixed_baseline_inclusive_5x5\TS_MPa\molecule\formulation\without_BDE\TS_MPa_final_model_bundle.joblib,0

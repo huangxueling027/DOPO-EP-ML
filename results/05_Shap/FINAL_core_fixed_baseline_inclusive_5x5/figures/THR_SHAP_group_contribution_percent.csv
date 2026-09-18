@@ -1,0 +1,7 @@
+﻿feature_group,group_label,contribution,contribution_percent
+other,Other features,0.94306860807068,3.888276350786764
+elemental_composition,Elemental composition,2.1806179409477315,8.99069812877594
+formulation_interaction,formulation_interaction,2.43863343568283,10.054497239179412
+formulation_loading,Formulation and loading,4.439162849700448,18.302689515976123
+molecular_descriptor,Molecular descriptors,6.597364446118974,27.200964949777294
+ep_baseline,EP baseline property,7.65530862277199,31.562873815504478

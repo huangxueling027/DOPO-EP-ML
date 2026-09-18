@@ -1,0 +1,8 @@
+﻿stage,count
+Original candidate molecules,409
+Valid SMILES,409
+Contains DOPO,409
+Candidate feasible for screening,409
+At least one in-domain formulation,213
+At least one formally eligible formulation,213
+Pareto-front candidate molecules,110

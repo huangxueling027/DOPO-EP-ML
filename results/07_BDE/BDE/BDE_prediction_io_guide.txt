@@ -1,0 +1,31 @@
+BDE prediction input/output guide
+=================================
+
+Purpose:
+  Train on DOPO_BDE.csv and predict BDE(kJ/mol) for unseen DOPO derivative SMILES.
+  Default thesis-use mode is DOPO P-C/P-N only: pc_pn.
+
+Required prediction input columns:
+  Smiles      Molecular SMILES string.
+  Bond_Type   Target bond type: P-C or P-N for the default pc_pn model.
+
+Recommended optional columns:
+  Sample_ID, Linkage_Type, Target_Bond_Label_clean, Target_Bond_Subtype,
+  Target_X_atom_class, Target_Bond_Count, Potential_PX_Bond_Count, Notes.
+
+Model selection rule:
+  P-C/P-N        -> pc_pn model first.
+  P-O/P-S/P-H    -> only available if you explicitly train all_types with DOPO_BDE_TASKS=all_types,pc_pn; otherwise no suitable model is returned.
+
+Main output columns:
+  BDE_pred_kJ_mol             Final selected BDE prediction.
+  selected_model_task         Model used for the final prediction.
+  confidence_note             Reliability warning.
+  BDE_pred_pc_pn_kJ_mol       Prediction from pc_pn if available.
+  BDE_pred_all_types_kJ_mol   Prediction from all_types if explicitly trained.
+
+Typical commands:
+  python BDE.py
+  python BDE.py --make-template BDE_prediction_input_template.csv --skip-train
+  python BDE.py --skip-train --predict-smiles "SMILES_HERE" --bond-type P-C
+  python BDE.py --skip-train --predict-csv input.csv --smiles-col Smiles --bond-col Bond_Type

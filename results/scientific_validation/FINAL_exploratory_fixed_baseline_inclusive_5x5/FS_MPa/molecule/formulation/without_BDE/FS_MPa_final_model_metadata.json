@@ -1,0 +1,17 @@
+{
+  "task": "FS_MPa",
+  "task_type": "regression",
+  "view": "morgan_r3",
+  "requested_k": 240,
+  "model_name": "RF",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "all",
+  "use_BDE": false,
+  "descriptor_mode": "advanced",
+  "use_V7_formula_features": true,
+  "conformal_q": 51.840936281179125,
+  "conformal_alpha": 0.05,
+  "conformal_n_calibration": 45
+}

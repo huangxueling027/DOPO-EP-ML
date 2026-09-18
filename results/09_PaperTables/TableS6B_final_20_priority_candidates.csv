@@ -1,0 +1,20 @@
+Final_priority_rank,Candidate_ID,Candidate_Name,Source_Type,Design_Family,Synthesis_Level,Candidate_rank_50,Candidate_rank_35,Pareto_rank_50,Pareto_rank_35,Loading_total_FR wt%_50,Loading_total_FR wt%_35,LOI_pred_50,PHRR_pred_50,PHRR_pred_35,THR_pred_50,V0_probability_50,Tg_pred_50,TS_pred_50,max_similarity_50,max_similarity_35
+1,CAND_013,TDCA-DOPO-3-boronic-acid,designed,P-B,B,2,1,1,1,10,10,35.377 ,529.134 ,523.281 ,56.365 ,0.677 ,154.267 ,73.177 ,0.774 ,0.774 
+2,CAND_R2_050,PBD-trimethoxysilyl,designed,P-N-Si,B,1,2,1,1,5.29,5.29,40.971 ,410.713 ,436.913 ,82.109 ,0.705 ,189.354 ,58.782 ,0.783 ,0.783 
+3,CAND_R2_239,PAD-NH-methyl,designed,P-N-S,B,3,3,1,1,10,10,36.468 ,655.506 ,647.641 ,62.832 ,0.695 ,149.630 ,73.964 ,0.796 ,0.796 
+4,CAND_R2_319,BDO-hydroxymethyl,designed,P-N-S,B,4,4,1,1,10,10,36.202 ,704.436 ,692.557 ,62.601 ,0.697 ,148.461 ,79.751 ,0.827 ,0.827 
+5,CAND_R2_067,PBD-NH-methyl,designed,P-N,B,6,5,1,1,10,10,36.470 ,693.151 ,687.680 ,63.667 ,0.701 ,157.316 ,70.997 ,0.769 ,0.769 
+6,CAND_R2_180,DSD-trimethoxysilyl,designed,P-N-Si-S,B,5,6,1,1,10,10,42.051 ,346.959 ,369.576 ,75.261 ,0.659 ,179.990 ,59.665 ,0.769 ,0.769 
+7,CAND_R2_227,PAD-carboxamide,designed,P-N-S,B,7,7,1,1,10,10,35.902 ,703.720 ,695.512 ,62.832 ,0.699 ,149.996 ,75.096 ,0.818 ,0.818 
+8,CAND_R2_181,DSD-triethoxysilyl,designed,P-N-Si-S,B,8,9,1,1,10,10,42.051 ,367.912 ,388.127 ,76.973 ,0.662 ,180.219 ,59.665 ,0.737 ,0.737 
+9,CAND_R2_141,DIB-NH-methyl,designed,P-N,B,10,8,1,1,10,10,36.412 ,709.870 ,694.511 ,62.601 ,0.688 ,150.380 ,74.500 ,0.738 ,0.738 
+10,CAND_R2_226,PAD-hydroxymethyl,designed,P-N-S,B,9,11,1,1,10,10,35.112 ,680.750 ,676.365 ,62.832 ,0.703 ,149.636 ,75.096 ,0.833 ,0.833 
+11,CAND_R2_193,DSD-OH-acetyl-all,designed,P-N-S,B,11,10,1,1,10,10,35.183 ,701.308 ,687.942 ,63.733 ,0.697 ,156.716 ,74.252 ,0.705 ,0.705 
+12,CAND_R2_130,DIB-boronic-acid,designed,P-N-B,B,14,13,1,1,10,10,35.962 ,727.681 ,715.400 ,62.601 ,0.691 ,151.744 ,75.011 ,0.788 ,0.788 
+13,CAND_R2_228,PAD-boronic-acid,designed,P-N-B-S,B,13,14,1,1,10,10,35.239 ,708.749 ,699.446 ,62.832 ,0.703 ,151.429 ,74.991 ,0.826 ,0.826 
+14,CAND_R2_047,PBD-carboxamide,designed,P-N,B,12,15,1,1,10,10,35.870 ,765.044 ,758.829 ,62.293 ,0.701 ,159.129 ,72.129 ,0.798 ,0.798 
+15,CAND_004,TDCA-DOPO-2-amino,designed,P-N,B,15,12,1,1,10.19,10.19,34.734 ,558.653 ,545.983 ,61.991 ,0.693 ,157.460 ,63.557 ,0.792 ,0.792 
+16,CAND_R2_263,TDCA-DOPO-3-carboxamide,designed,P-N,B,16,17,1,1,10,10,34.227 ,604.554 ,596.316 ,56.365 ,0.684 ,153.830 ,72.846 ,0.823 ,0.823 
+17,CAND_R2_264,TDCA-DOPO-3-boronic-acid,designed,P-B,B,19,18,1,1,10,10,34.189 ,599.264 ,589.932 ,56.365 ,0.681 ,153.860 ,73.177 ,0.833 ,0.833 
+18,CAND_R2_076,TDCA-DOPO-2-carboxamide,designed,P-N,B,20,16,1,1,10,10,34.444 ,603.931 ,588.876 ,56.114 ,0.685 ,152.505 ,71.906 ,0.813 ,0.813 
+19,CAND_R2_048,PBD-boronic-acid,designed,P-N-B,B,17,20,1,1,10,10,35.282 ,745.321 ,733.594 ,62.293 ,0.702 ,158.227 ,72.129 ,0.806 ,0.806 

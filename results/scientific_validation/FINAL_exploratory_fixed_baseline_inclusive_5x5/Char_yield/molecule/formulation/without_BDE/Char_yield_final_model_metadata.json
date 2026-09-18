@@ -1,0 +1,17 @@
+{
+  "task": "Char_yield",
+  "task_type": "regression",
+  "view": "full_interaction",
+  "requested_k": 100,
+  "model_name": "SVR",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "all",
+  "use_BDE": false,
+  "descriptor_mode": "advanced",
+  "use_V7_formula_features": true,
+  "conformal_q": 20.94181096810437,
+  "conformal_alpha": 0.05,
+  "conformal_n_calibration": 40
+}

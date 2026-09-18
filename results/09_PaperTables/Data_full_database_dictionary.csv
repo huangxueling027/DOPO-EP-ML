@@ -1,0 +1,98 @@
+﻿field_order,field,description,unit_or_encoding,pandas_dtype,non_missing_n,missing_n,missing_rate_percent,unique_non_missing
+1,Record_ID,Record ID,identifier,object,599,0,0.0,599
+2,FR_main,Main DOPO-derived flame retardant name,dimensionless / text,object,599,0,0.0,138
+3,FR_co,Co-flame-retardant or synergist name,dimensionless / text,object,22,577,96.327,7
+4,Curing_Agent,Epoxy curing-agent name,dimensionless / text,object,591,8,1.336,9
+5,Preparation_Method,"Standardized nominal preparation method: additive, reactive, co-curing, or additive plus secondary crosslinking",dimensionless / text,object,599,0,0.0,4
+6,Preparation_Method_num,Record-management code only: 0 additive; 1 reactive; 2 co-curing; 3 additive plus secondary crosslinking; not used as an ordinal predictive feature,code,int64,599,0,0.0,4
+7,Synergy_flag(single=0&synergy=1),Synergy flag(single=0&synergy=1),binary,int64,599,0,0.0,2
+8,Synergy_type,Elemental or structural synergistic category,dimensionless / text,object,599,0,0.0,15
+9,Main_FR_fraction,Main FR fraction,fraction / ratio,object,599,0,0.0,12
+10,Co_FR_fraction,Co FR fraction,fraction / ratio,object,599,0,0.0,11
+11,SMILES_main,SMILES of main flame retardant,SMILES,object,599,0,0.0,141
+12,SMILES_co,SMILES of co-flame-retardant/synergist,SMILES,object,24,575,95.993,7
+13,SMILES_Curing_Agent,SMILES of curing agent,SMILES,object,591,8,1.336,9
+14,Loading_total_FR wt%,Total flame-retardant loading relative to the formulation,wt%,float64,599,0,0.0,175
+15,P_content wt%,Formulation-level phosphorus content,wt%,float64,599,0,0.0,159
+16,N_content wt%,Formulation-level nitrogen content,wt%,float64,599,0,0.0,205
+17,S_content wt%,Formulation-level sulfur content,wt%,float64,599,0,0.0,50
+18,B_content wt%,Formulation-level boron content,wt%,float64,599,0,0.0,19
+19,Si_content wt%,Formulation-level silicon content,wt%,float64,596,3,0.501,60
+20,N/P ratio,N/P ratio,fraction / ratio,float64,599,0,0.0,25
+21,S/P ratio,S/P ratio,fraction / ratio,float64,599,0,0.0,6
+22,B/P ratio,B/P ratio,fraction / ratio,float64,599,0,0.0,4
+23,Si/P ratio,Si/P ratio,fraction / ratio,float64,599,0,0.0,19
+24,Has_P,Has P,binary,int64,599,0,0.0,1
+25,Has_N,Has N,binary,int64,599,0,0.0,2
+26,Has_S,Has S,binary,int64,599,0,0.0,2
+27,Has_B,Has B,binary,int64,599,0,0.0,2
+28,Has_Si,Has Si,binary,int64,599,0,0.0,2
+29,CuringAgent_Has_N,CuringAgent Has N,binary,int64,599,0,0.0,2
+30,CuringAgent_Has_S,CuringAgent Has S,binary,int64,599,0,0.0,2
+31,CuringAgent_Has_P,CuringAgent Has P,binary,int64,599,0,0.0,2
+32,CuringAgent_Has_B,CuringAgent Has B,binary,int64,599,0,0.0,2
+33,CuringAgent_Has_F,CuringAgent Has F,binary,int64,599,0,0.0,2
+34,CuringAgent_Has_Cl,CuringAgent Has Cl,binary,int64,599,0,0.0,2
+35,Cure_Temp_Max,Highest reported curing temperature,°C,float64,594,5,0.835,17
+36,LOI_Thickness_mm,LOI Thickness mm,mm,float64,547,52,8.681,5
+37,LOI,Limiting oxygen index,%,float64,599,0,0.0,178
+38,EP_matrix_LOI,EP matrix LOI,%,float64,599,0,0.0,55
+39,Delta_LOI,LOI difference relative to matched neat-EP baseline,percentage points,float64,599,0,0.0,218
+40,UL94_Thickness_mm,UL94 Thickness mm,mm,float64,540,59,9.85,4
+41,UL94,UL-94 vertical burning class,class,object,599,0,0.0,4
+42,UL94_num,UL94 num,code,int64,599,0,0.0,4
+43,Cone_Thickness_mm,Cone Thickness mm,mm,float64,495,104,17.362,7
+44,Cone_flux_kW_m2,Cone-calorimeter external heat flux; not inferred from PHRR/THR,kW m^-2,float64,494,105,17.529,3
+45,PHRR_kw_㎡,Peak heat-release rate,kW m^-2,float64,406,193,32.22,362
+46,EP_matrix_PHRR,EP matrix PHRR,kW m^-2,float64,403,196,32.721,100
+47,Delta_PHRR,PHRR difference relative to matched neat-EP baseline,kW m^-2,float64,403,196,32.721,267
+48,THR_MJ_㎡,Total heat release,MJ m^-2,float64,397,202,33.723,295
+49,EP_matrix_THR,EP matrix THR,MJ m^-2,float64,394,205,34.224,95
+50,Delta_THR,THR difference relative to matched neat-EP baseline,MJ m^-2,float64,394,205,34.224,221
+51,Tg_℃,"Glass-transition temperature, preferentially DMA according to database rules",°C,float64,357,242,40.401,215
+52,EP_matrix_Tg,EP matrix Tg,°C,float64,356,243,40.568,69
+53,Delta_Tg,Delta Tg,°C,float64,356,243,40.568,167
+54,Char_yield_％_700C,Char yield at 700 °C,%,float64,196,403,67.279,130
+55,EP_matrix_CY,EP matrix CY,%,float64,196,403,67.279,38
+56,Delta_CY,Char-yield difference relative to matched neat-EP baseline,percentage points,float64,196,403,67.279,114
+57,TS_MPa,Tensile strength,MPa,float64,256,343,57.262,210
+58,EP_matrix_TS,EP matrix TS,MPa,float64,256,343,57.262,61
+59,Delta_TS,Delta TS,MPa,float64,256,343,57.262,165
+60,FS_MPa,Flexural strength,MPa,float64,228,371,61.937,188
+61,EP_matrix_FS,EP matrix FS,MPa,float64,228,371,61.937,51
+62,Delta_FS,Delta FS,MPa,float64,228,371,61.937,141
+63,FR_main_BDE_Kcal/mol,FR main BDE Kcal/mol,kcal mol^-1,float64,360,239,39.9,89
+64,FR_main_BDE_KJ/mol,FR main BDE KJ/mol,kJ mol^-1,float64,360,239,39.9,92
+65,BDE_Type,Bond type associated with the BDE value,category,object,465,134,22.371,5
+66,Reference,Reference,text / identifier,object,599,0,0.0,130
+67,pred_Canonical_SMILES,Pred Canonical SMILES,SMILES,object,465,134,22.371,137
+68,pred_Bond_Type,Pred Bond Type,dimensionless / text,object,465,134,22.371,5
+69,pred_selected_model_task,Pred selected model task,dimensionless / text,object,421,178,29.716,1
+70,pred_selected_model_name,Pred selected model name,dimensionless / text,object,421,178,29.716,1
+71,pred_selected_target_mode,Pred selected target mode,dimensionless / text,object,421,178,29.716,1
+72,pred_selected_k_best,Pred selected k best,dimensionless / text,float64,421,178,29.716,1
+73,pred_BDE_pred_kJ_mol,Pred BDE pred kJ mol,kJ mol^-1,float64,421,178,29.716,152
+74,pred_BDE_pred_std_kJ_mol,Pred BDE pred std kJ mol,kJ mol^-1,float64,421,178,29.716,246
+75,pred_confidence_note,Pred confidence note,dimensionless / text,object,465,134,22.371,2
+76,pred_prediction_agreement_note,Pred prediction agreement note,dimensionless / text,object,465,134,22.371,1
+77,pred_pcpn_alltypes_abs_diff_kJ_mol,Pred pcpn alltypes abs diff kJ mol,dimensionless / text,float64,0,599,100.0,0
+78,pred_BDE_pred_pc_pn_kJ_mol,Pred BDE pred pc pn kJ mol,kJ mol^-1,float64,465,134,22.371,165
+79,pred_BDE_pred_pc_pn_std_kJ_mol,Pred BDE pred pc pn std kJ mol,kJ mol^-1,float64,465,134,22.371,272
+80,pred_BDE_model_pc_pn,Pred BDE model pc pn,text / category,object,465,134,22.371,1
+81,pred_BDE_target_mode_pc_pn,Pred BDE target mode pc pn,text / category,object,465,134,22.371,1
+82,pred_BDE_k_best_pc_pn,Pred BDE k best pc pn,kJ mol^-1,float64,465,134,22.371,1
+83,FR_main_BDE_pred_kJ_mol,FR main BDE pred kJ mol,kJ mol^-1,float64,421,178,29.716,152
+84,FR_main_BDE_pred_std_kJ_mol,FR main BDE pred std kJ mol,kJ mol^-1,float64,421,178,29.716,246
+85,FR_main_BDE_model_task,FR main BDE model task,text / category,object,421,178,29.716,1
+86,FR_main_BDE_model_name,FR main BDE model name,text / category,object,421,178,29.716,1
+87,FR_main_BDE_target_mode,FR main BDE target mode,text / category,object,421,178,29.716,1
+88,FR_main_BDE_k_best,FR main BDE k best,dimensionless / text,float64,421,178,29.716,1
+89,FR_main_BDE_confidence_note,FR main BDE confidence note,text / category,object,465,134,22.371,2
+90,FR_main_BDE_prediction_agreement_note,FR main BDE prediction agreement note,text / category,object,465,134,22.371,1
+91,FR_main_BDE_pcpn_alltypes_diff_kJ_mol,FR main BDE pcpn alltypes diff kJ mol,kJ mol^-1,float64,0,599,100.0,0
+92,FR_main_BDE_pc_pn_pred_kJ_mol,FR main BDE pc pn pred kJ mol,kJ mol^-1,float64,465,134,22.371,165
+93,FR_main_BDE_pc_pn_pred_std_kJ_mol,FR main BDE pc pn pred std kJ mol,kJ mol^-1,float64,465,134,22.371,272
+94,FR_main_BDE_final_kJ_mol,FR main BDE final kJ mol,kJ mol^-1,float64,446,153,25.543,127
+95,FR_main_BDE_available,FR main BDE available,binary,int64,599,0,0.0,2
+96,FR_main_BDE_source,FR main BDE source,category,object,599,0,0.0,3
+97,FR_main_BDE_low_confidence,FR main BDE low confidence,binary,int64,599,0,0.0,2

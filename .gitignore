@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Environments / secrets
+.env
+.env.*
+.venv/
+venv/
+env/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary / Office files
+~$*
+*.tmp
+*.temp
+*.log
+
+# Archives and manuscripts
+*.zip
+*.rar
+*.7z
+*.doc
+*.docx
+
+# Literature PDFs should not be redistributed through this repository
+literature/
+references_pdf/
+papers/
+
+# Development-only backups / caches
+backup_before_ModelB/
+results/archive/
+results/audit/
+results/_smoke_tests/
+results/**/cache/
+
+# Large fold-level model binaries are regenerated when needed.
+# Final frozen model bundles already tracked in results/scientific_validation/FINAL_* are retained.
+results/**/*_outer_fold_*_model.joblib
+
+# Non-deployable final bundles created by robustness/interpretation reruns are omitted.
+# Keep only the eight manuscript-facing deployable bundles in the formal core/aux/exploratory directories.
+results/**/*_final_model_bundle.joblib
+!results/scientific_validation/FINAL_core_fixed_baseline_inclusive_5x5/**/*_final_model_bundle.joblib
+!results/scientific_validation/FINAL_aux_fixed_baseline_inclusive_5x5/**/*_final_model_bundle.joblib
+!results/scientific_validation/FINAL_exploratory_fixed_baseline_inclusive_5x5/**/*_final_model_bundle.joblib

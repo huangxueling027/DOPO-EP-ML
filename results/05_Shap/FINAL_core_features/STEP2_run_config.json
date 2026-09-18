@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    "LOI",
+    "PHRR",
+    "THR",
+    "UL94_V0"
+  ],
+  "include_levels": [
+    "High",
+    "Medium"
+  ],
+  "ranking_rule": "parent_importance_max_child descending (conservative)",
+  "sum_importance_note": "parent_importance_sum is bookkeeping because correlated transforms can split SHAP attribution",
+  "direction_note": "average SHAP-output direction only; not proof of monotonicity or causality",
+  "top_parent_n": 12,
+  "output_prefix": "core",
+  "step_label": "STEP2",
+  "summary_title": "核心任务SHAP稳定父变量汇总",
+  "results_root": "results\\05_Shap\\FINAL_core_fixed_baseline_inclusive_5x5",
+  "figures_dir": "results\\05_Shap\\FINAL_core_fixed_baseline_inclusive_5x5\\figures",
+  "output_dir": "results\\05_Shap\\FINAL_core_features"
+}

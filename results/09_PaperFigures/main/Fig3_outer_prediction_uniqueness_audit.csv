@@ -1,0 +1,6 @@
+﻿task,n_prediction_rows,identifier_column,duplicate_identifier_rows,outer_folds
+LOI,599,Record_ID,0,5
+PHRR,406,Record_ID,0,5
+THR,397,Record_ID,0,5
+Tg,357,Record_ID,0,5
+TS_MPa,256,Record_ID,0,5

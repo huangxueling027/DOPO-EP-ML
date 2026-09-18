@@ -1,0 +1,114 @@
+{
+  "input_path": "data\\DOPO_EP_new_with_BDE.csv",
+  "tasks": [
+    "Delta_LOI",
+    "Delta_PHRR",
+    "Delta_THR",
+    "Delta_CY"
+  ],
+  "split_strategies": [
+    "molecule"
+  ],
+  "screening_modes": [
+    "formulation"
+  ],
+  "feature_scopes": [
+    "all"
+  ],
+  "bde_modes": [
+    "without_BDE"
+  ],
+  "options": {
+    "outer_splits": 5,
+    "inner_splits": 5,
+    "random_state": 42,
+    "split_strategy": "molecule",
+    "selection_scope": "fixed",
+    "screening_mode": "formulation",
+    "feature_scope": "all",
+    "use_bde": false,
+    "row_policy": "baseline_inclusive",
+    "conformal_alpha": 0.05,
+    "include_tabpfn": false,
+    "model_names": null,
+    "shap_stability": false,
+    "max_shap_samples": 80
+  },
+  "task_feature_settings": {
+    "LOI": {
+      "descriptor_mode": "basic",
+      "use_V7_formula_features": true,
+      "current_view": "compact",
+      "current_k": 260
+    },
+    "PHRR": {
+      "descriptor_mode": "basic",
+      "use_V7_formula_features": false,
+      "current_view": "compact",
+      "current_k": 330
+    },
+    "THR": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": true,
+      "current_view": "descriptors",
+      "current_k": 30
+    },
+    "Tg": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": true,
+      "current_view": "morgan_r3",
+      "current_k": 270
+    },
+    "Char_yield": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": true,
+      "current_view": "full_interaction",
+      "current_k": 100
+    },
+    "TS_MPa": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": true,
+      "current_view": "compact",
+      "current_k": 140
+    },
+    "FS_MPa": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": true,
+      "current_view": "morgan_r3",
+      "current_k": 240
+    },
+    "Delta_LOI": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": false,
+      "current_view": "descriptors",
+      "current_k": 30
+    },
+    "Delta_PHRR": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": false,
+      "current_view": "maccs",
+      "current_k": 240
+    },
+    "Delta_THR": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": false,
+      "current_view": "descriptors",
+      "current_k": 120
+    },
+    "Delta_CY": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": false,
+      "current_view": "descriptors",
+      "current_k": 180
+    },
+    "UL94_V0": {
+      "descriptor_mode": "advanced",
+      "use_V7_formula_features": true,
+      "current_view": "morgan_r3",
+      "current_k": null
+    }
+  },
+  "feature_view_aliases_removed": {
+    "maccs_descriptors": "maccs"
+  }
+}

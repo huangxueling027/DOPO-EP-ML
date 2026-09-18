@@ -1,0 +1,11 @@
+﻿table,file,status,rows,note
+S1,TableS1_compact_database_dictionary.csv,generated,43,compact database dictionary; full schema in Data_full_database_dictionary.csv
+S2A,TableS2A_frozen_task_configurations.csv,generated,12,Panel A: task-specific frozen configurations
+S2B,TableS2B_candidate_model_space.csv,generated,22,Panel B: candidate models and preprocessing
+S3,TableS3_strict_5x5_validation_performance.csv,generated,12,compact formal 5x5 performance summary
+S4,TableS4_BDE_PC_PN_summary.csv,generated,2,formal P-C/P-N BDE summary; row-level data in Data_all_BDE_prediction_errors.csv
+S5,TableS5_stable_SHAP_features_compact.csv,generated,42,compact stable SHAP features; full list in Data_all_stable_SHAP_features.csv
+S6A,TableS6A_screening_summary.csv,generated,6,Panel A: screening counts across both heat-flux scenarios
+S6B,TableS6B_final_20_priority_candidates.csv,generated,19,Panel B: final 20 cross-flux priority candidates
+S7A,TableS7A_external_validation_performance.csv,generated,5,Panel A: independent external-validation performance
+S7B,TableS7B_external_structure_AD_audit.csv,generated,6,Panel B: external structure/applicability-domain audit

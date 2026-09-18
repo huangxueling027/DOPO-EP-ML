@@ -1,0 +1,4 @@
+﻿Database,Query_ID,Query_Type,Query_String,Structure_Family,Similarity_Threshold,Max_Records,Retrieval_Date,Raw_Hit_Count,Downloaded_Record_Count,CSV_File,SDF_File,Search_Status,Sort_Method,Notes
+PubChem,PC_SUB_Q1,Substructure,[P;X4]1(=O)(*)Oc2ccccc2-c2ccccc21,DOPO_substituted_core_neutral_P=O,,All,2026-08-06,3440,3440,pubchem_Q1_substructure_raw.csv,pubchem_Q1_substructure_2D.sdf.gz,Completed,Relevance,Main neutral P=O representation; downloaded as CSV and 2D SDF.
+PubChem,PC_SUB_Q2,Substructure,[P+;X4]1([O-])(*)Oc2ccccc2-c2ccccc21,DOPO_charge_separated_Pplus_Ominus,,All,2026-08-06,0,0,,,Completed_zero_hits,Relevance,No exact charge-separated hits; retain as a documented zero-result query.
+PubChem,PC_SUB_Q3,Substructure,[PH;X4]1(=O)Oc2ccccc2-c2ccccc21,DOPO_H_parent,,All,2026-08-06,2,2,pubchem_Q3_DOPO_H_raw.csv,pubchem_Q3_DOPO_H_2D.sdf.gz,Completed,Relevance,DOPO-H parent query; includes the ordinary and isotopically labelled records.

@@ -1,0 +1,23 @@
+{
+  "V4_training_file": "data\\DOPO_EP_new_with_BDE.csv",
+  "V4_training_rows": 599,
+  "external_source": "data\\external_validation\\External_Validation_V4_ready.csv",
+  "external_source_kind": "prepared_csv",
+  "external_rows": 26,
+  "tasks_requested": [
+    "LOI",
+    "PHRR",
+    "THR",
+    "UL94_V0",
+    "Tg",
+    "TS_MPa"
+  ],
+  "formal_metric_policy": "positive-loading external FR formulations only; Neat EP retained for tracing but excluded from external metrics",
+  "model_policy": "use frozen V5 FINAL final_model_bundle only; deployable model using V4 development data only",
+  "BDE_policy": "without BDE only",
+  "AD_thresholds": {
+    "in_domain": "Smax >= 0.70",
+    "caution": "0.50 <= Smax < 0.70",
+    "extrapolation": "Smax < 0.50"
+  }
+}

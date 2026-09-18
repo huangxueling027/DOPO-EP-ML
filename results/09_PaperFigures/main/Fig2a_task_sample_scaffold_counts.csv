@@ -1,0 +1,9 @@
+﻿task,n_samples,n_unique_main_molecules,n_unique_main_scaffolds
+LOI,599,141,117
+PHRR,406,127,107
+THR,397,122,104
+UL94_V0,599,141,117
+Tg,357,97,84
+Char_yield,196,53,48
+TS_MPa,256,66,57
+FS_MPa,228,58,51

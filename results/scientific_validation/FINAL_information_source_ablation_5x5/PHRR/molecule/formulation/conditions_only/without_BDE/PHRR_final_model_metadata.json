@@ -1,0 +1,17 @@
+{
+  "task": "PHRR",
+  "task_type": "regression",
+  "view": "compact",
+  "requested_k": 330,
+  "model_name": "GBDT",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "conditions_only",
+  "use_BDE": false,
+  "descriptor_mode": "basic",
+  "use_V7_formula_features": false,
+  "conformal_q": 545.5646228618393,
+  "conformal_alpha": 0.05,
+  "conformal_n_calibration": 82
+}

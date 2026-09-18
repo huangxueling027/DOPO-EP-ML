@@ -1,0 +1,9 @@
+﻿Metric,Value
+Q1_raw_rows,3440
+Q3_raw_rows,2
+unique_CID,3440
+canonical_duplicates,2
+DOPO_nonmatches,13
+multi_component_records,897
+charged_records,206
+isotopic_records,44

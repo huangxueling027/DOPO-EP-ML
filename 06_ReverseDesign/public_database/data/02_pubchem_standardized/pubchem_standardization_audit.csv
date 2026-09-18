@@ -1,0 +1,9 @@
+﻿Stage_Order,Stage,N,Removed_From_Previous,Fraction_of_Raw
+1,raw_records,3442,0,1.0
+2,valid_smiles,3442,0,1.0
+3,project_DOPO_match,3429,13,0.9962231260894828
+4,single_component,2532,897,0.7356188262638002
+5,neutral,2486,46,0.7222545031958164
+6,non_isotopic,2484,2,0.7216734456711215
+7,unique_canonical,2484,0,0.7216734456711215
+8,standardization_eligible,2484,0,0.7216734456711215

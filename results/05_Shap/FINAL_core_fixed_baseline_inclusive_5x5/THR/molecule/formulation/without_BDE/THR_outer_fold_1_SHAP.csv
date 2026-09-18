@@ -1,0 +1,31 @@
+﻿feature,feature_group,mean_abs_shap,mean_signed_shap,rank,outer_fold,selected_view,selected_model,selected_requested_k,selected_effective_k
+Synergy_x_EP_matrix_THR,formulation_interaction,4.024188883076809,-1.397209207871024,1,1,descriptors,GBDT,30,30
+P_x_curing_RingCount,molecular_descriptor,2.956026592565597,0.06723439558460881,2,1,descriptors,GBDT,30,30
+EP_matrix_THR_sq,ep_baseline,2.7503650925799987,-1.028340381164,3,1,descriptors,GBDT,30,30
+EP_matrix_THR_sqrt,ep_baseline,2.636602644669669,-0.7335015982428251,4,1,descriptors,GBDT,30,30
+P_x_CuringAgent_Has_S,molecular_descriptor,1.7897901518717922,-0.25140238957971106,5,1,descriptors,GBDT,30,30
+main_BalabanJ,other,1.67578957134237,-0.5811222531998326,6,1,descriptors,GBDT,30,30
+P_x_curing_LogP,molecular_descriptor,1.4839896440185198,0.12630796873631572,7,1,descriptors,GBDT,30,30
+EP_matrix_THR,ep_baseline,1.454279145038583,-0.4900172385045641,8,1,descriptors,GBDT,30,30
+P_x_curing_HBA,molecular_descriptor,1.0493435267731546,-0.31206355951933396,9,1,descriptors,GBDT,30,30
+N_loading_real_sqrt,formulation_loading,0.8566213653629856,0.15609531030679738,10,1,descriptors,GBDT,30,30
+Main_FR_fraction,formulation_loading,0.6561967418591182,0.08448110759258273,11,1,descriptors,GBDT,30,30
+P_loading_real_sqrt,formulation_loading,0.6485858895333434,0.13622070719242202,12,1,descriptors,GBDT,30,30
+P_x_curing_TPSA,molecular_descriptor,0.5390167920586338,-0.0259458506060764,13,1,descriptors,GBDT,30,30
+P_x_curing_MolWt,molecular_descriptor,0.4317776501996235,-0.04868889079222248,14,1,descriptors,GBDT,30,30
+Loading_x_Synergy,formulation_loading,0.27614764813191456,0.03825068543445217,15,1,descriptors,GBDT,30,30
+N_content_wt%_sqrt,elemental_composition,0.24358901044560802,0.027387721414367367,16,1,descriptors,GBDT,30,30
+Loading_total_FR_sqrt,formulation_loading,0.18614858713414933,0.04230469226009316,17,1,descriptors,GBDT,30,30
+Loading_total_FR wt%,formulation_loading,0.1818637670079867,0.034003324608008076,18,1,descriptors,GBDT,30,30
+P_content wt%,elemental_composition,0.16759730774495332,0.016988370766242333,19,1,descriptors,GBDT,30,30
+P_x_curing_AromaticRings,molecular_descriptor,0.1605445645232167,0.008427346586767168,20,1,descriptors,GBDT,30,30
+N_content wt%,elemental_composition,0.14247646338823766,8.722812765175244e-05,21,1,descriptors,GBDT,30,30
+P_x_curing_HeavyAtomCount,molecular_descriptor,0.09899223875771795,-0.03474178104868365,22,1,descriptors,GBDT,30,30
+P_content_sqrt,elemental_composition,0.08993069830040136,-0.0035654041916131918,23,1,descriptors,GBDT,30,30
+N/P ratio,elemental_composition,0.04011576212942599,0.00017241145173708592,24,1,descriptors,GBDT,30,30
+P_x_CuringAgent_Has_N,molecular_descriptor,0.016457882333132955,0.002265413030982018,25,1,descriptors,GBDT,30,30
+P_x_curing_HBD,molecular_descriptor,0.0009835842251777651,-0.0009835842251777651,26,1,descriptors,GBDT,30,30
+Has_N,elemental_composition,0.0,0.0,27,1,descriptors,GBDT,30,30
+Has_P,elemental_composition,0.0,0.0,28,1,descriptors,GBDT,30,30
+Synergy_flag(single=0&synergy=1),other,0.0,0.0,29,1,descriptors,GBDT,30,30
+N/P_ratio_sqrt,elemental_composition,0.0,0.0,30,1,descriptors,GBDT,30,30

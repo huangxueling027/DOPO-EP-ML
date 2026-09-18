@@ -1,0 +1,10 @@
+{
+  "tasks": "LOI,PHRR,THR,UL94_V0",
+  "outer_splits": 5,
+  "inner_splits": 5,
+  "selection_scope": "fixed",
+  "row_policy": "baseline_inclusive",
+  "results": "results\\scientific_validation\\FINAL_information_source_ablation_5x5",
+  "input": "C:\\Users\\26981\\OneDrive\\Desktop\\python_work\\ML_DOPO_Project_V5\\data\\DOPO_EP_new_with_BDE.csv",
+  "models": ""
+}

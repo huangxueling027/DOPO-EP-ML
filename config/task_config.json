@@ -1,0 +1,222 @@
+{
+  "project_version": "V5_FINAL_AUDITED_2026-09-10",
+  "data": {
+    "primary": "data/DOPO_EP_new_with_BDE.csv",
+    "fallback": "data/DOPO_EP_new.csv"
+  },
+  "evaluation": {
+    "seeds": [
+      42,
+      52,
+      62,
+      72,
+      82
+    ],
+    "test_size": 0.2,
+    "group_rules": {
+      "MAIN_CO": [
+        "LOI",
+        "PHRR",
+        "THR",
+        "UL94_V0",
+        "Char_yield",
+        "Delta_LOI",
+        "Delta_PHRR",
+        "Delta_THR",
+        "Delta_CY"
+      ],
+      "MAIN_CO_CURING": [
+        "Tg",
+        "TS_MPa",
+        "FS_MPa"
+      ]
+    },
+    "neat_ep_absolute_tasks": "Primary formal absolute-property evaluation is baseline-inclusive. Valid neat EP rows are retained; on neat EP rows, FR-derived molecular/fingerprint/composition/synergy/interaction features are masked, and the task-matching EP_matrix feature is masked where present. Overall metrics are primary; modified-formulation test-subset metrics are reported as sensitivity analysis.",
+    "delta_tasks": "exclude rows with explicit Loading_total_FR=0; retain rows with unknown loading when Delta target is valid",
+    "strict_validation": "08_ScientificValidation uses nested group CV with fold-internal preprocessing",
+    "development_workflow": "repeated_group_holdout",
+    "formal_evaluation": "nested_group_cv_5x5",
+    "row_policies": {
+      "baseline_inclusive": "PRIMARY formal absolute-property evaluation. Retains valid neat EP and modified formulations; neat-EP FR-derived features and task-matching EP_matrix feature (where present) are masked. Report overall plus modified-test-subset metrics.",
+      "modified_only": "Sensitivity/subset evaluation using explicit Loading_total_FR > 0 for absolute-property tasks."
+    },
+    "formal_protocol": {
+      "id": "FINAL_FIXED_BASELINE_INCLUSIVE_5X5",
+      "selection_scope": "fixed",
+      "row_policy": "baseline_inclusive",
+      "split_strategy": "molecule",
+      "screening_mode": "formulation",
+      "feature_scope": "all",
+      "bde_mode": "without",
+      "outer_splits": 5,
+      "inner_splits": 5,
+      "view_k_source": "Task-specific view/K predefined from the V4 development-stage systematic sensitivity analyses before the FINAL evaluation.",
+      "inner_cv_selection": "Only the predictive model is selected by grouped inner CV within each outer-training fold; the UL94 decision threshold is also estimated from outer-training data only.",
+      "outer_fold_use": "Outer folds are used only for evaluation.",
+      "modified_subset_role": "Sensitivity/subset evaluation; not the primary formal result.",
+      "preparation_method_encoding": "four canonical nominal categories; one-hot only; numeric code retained as metadata",
+      "delta_definition": "DeltaY = Y_modified_FR/EP - Y_matched_neat_EP",
+      "element_content_definition": "P/N/S/B/Si_content wt% are formulation-level elemental contents; legacy *_loading_real fields are loading×composition interactions"
+    }
+  },
+  "tasks": {
+    "LOI": {
+      "category": "01_FlameRetardancy",
+      "type": "regression",
+      "view": "compact",
+      "k": 260,
+      "descriptor_mode": "basic",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "PHRR": {
+      "category": "01_FlameRetardancy",
+      "type": "regression",
+      "view": "compact",
+      "k": 330,
+      "descriptor_mode": "basic",
+      "use_v7": false,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "THR": {
+      "category": "01_FlameRetardancy",
+      "type": "regression",
+      "view": "descriptors",
+      "k": 30,
+      "descriptor_mode": "advanced",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "UL94_V0": {
+      "category": "01_FlameRetardancy",
+      "type": "classification",
+      "view": "morgan_r3",
+      "k": "all",
+      "model": "ExtraTrees_v8",
+      "descriptor_mode": "advanced",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "Tg": {
+      "category": "02_Thermal",
+      "type": "regression",
+      "view": "morgan_r3",
+      "k": 270,
+      "descriptor_mode": "advanced",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO_CURING"
+    },
+    "Char_yield": {
+      "category": "02_Thermal",
+      "type": "regression",
+      "view": "full_interaction",
+      "k": 100,
+      "descriptor_mode": "advanced",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "TS_MPa": {
+      "category": "03_Mechanical",
+      "type": "regression",
+      "view": "compact",
+      "k": 140,
+      "descriptor_mode": "advanced",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO_CURING"
+    },
+    "FS_MPa": {
+      "category": "03_Mechanical",
+      "type": "regression",
+      "view": "morgan_r3",
+      "k": 240,
+      "descriptor_mode": "advanced",
+      "use_v7": true,
+      "main_bde": false,
+      "group": "MAIN_CO_CURING"
+    },
+    "Delta_LOI": {
+      "category": "04_Delta",
+      "type": "regression",
+      "view": "descriptors",
+      "k": 30,
+      "descriptor_mode": "advanced",
+      "use_v7": false,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "Delta_PHRR": {
+      "category": "04_Delta",
+      "type": "regression",
+      "view": "maccs",
+      "k": 240,
+      "descriptor_mode": "advanced",
+      "use_v7": false,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "Delta_THR": {
+      "category": "04_Delta",
+      "type": "regression",
+      "view": "descriptors",
+      "k": 120,
+      "descriptor_mode": "advanced",
+      "use_v7": false,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    },
+    "Delta_CY": {
+      "category": "04_Delta",
+      "type": "regression",
+      "view": "descriptors",
+      "k": 180,
+      "descriptor_mode": "advanced",
+      "use_v7": false,
+      "main_bde": false,
+      "group": "MAIN_CO"
+    }
+  },
+  "workflow_order": [
+    "LOI",
+    "PHRR",
+    "THR",
+    "UL94_V0",
+    "Tg",
+    "Char_yield",
+    "TS_MPa",
+    "FS_MPa",
+    "Delta_LOI",
+    "Delta_PHRR",
+    "Delta_THR",
+    "Delta_CY"
+  ],
+  "project_version_note": "Frozen data-release identifier retained for PROJECT_RULES_LOCK/hash compatibility; the formal modeling protocol is identified separately by evaluation.formal_protocol.id.",
+  "formal_task_tiers": {
+    "core": [
+      "LOI",
+      "PHRR",
+      "THR",
+      "UL94_V0"
+    ],
+    "auxiliary": [
+      "Tg",
+      "TS_MPa"
+    ],
+    "exploratory": [
+      "Char_yield",
+      "FS_MPa"
+    ],
+    "delta": [
+      "Delta_LOI",
+      "Delta_PHRR",
+      "Delta_THR",
+      "Delta_CY"
+    ]
+  }
+}

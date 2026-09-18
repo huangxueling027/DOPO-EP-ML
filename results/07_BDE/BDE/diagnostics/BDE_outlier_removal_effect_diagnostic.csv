@@ -1,0 +1,7 @@
+﻿pooled_R2,pooled_RMSE,pooled_MAE,n_pred_rows,task,selected_model,selected_target_mode,selected_k_best,removed_top_unique_error_samples,diagnostic_only,note
+0.7778714791900383,20.545716354146087,14.602120993648109,1195,pc_pn,SoftVote_local,raw,1200,0,True,Do not report this as final performance unless removed samples are independently confirmed as data/label errors.
+0.7812545990220948,20.022443333038026,14.353183114120677,1190,pc_pn,SoftVote_local,raw,1200,1,True,Do not report this as final performance unless removed samples are independently confirmed as data/label errors.
+0.7964695274851388,19.137447842755915,13.907687115729589,1180,pc_pn,SoftVote_local,raw,1200,3,True,Do not report this as final performance unless removed samples are independently confirmed as data/label errors.
+0.8030393149656645,18.34692108465945,13.499431444744493,1170,pc_pn,SoftVote_local,raw,1200,5,True,Do not report this as final performance unless removed samples are independently confirmed as data/label errors.
+0.8288188830294589,16.80404188969389,12.657637540374756,1145,pc_pn,SoftVote_local,raw,1200,10,True,Do not report this as final performance unless removed samples are independently confirmed as data/label errors.
+0.8560151246761702,14.87611391109149,11.42851665745905,1095,pc_pn,SoftVote_local,raw,1200,20,True,Do not report this as final performance unless removed samples are independently confirmed as data/label errors.

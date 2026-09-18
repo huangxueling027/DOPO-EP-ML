@@ -1,0 +1,2 @@
+﻿task,model,target_mode,model_variant,k_best,test_R2_mean,test_R2_std,test_R2_max,test_R2_min,test_RMSE_mean,test_MAE_mean,n_runs,n_samples,selected_features
+pc_pn,SoftVote_local,raw,SoftVote_local__raw,1200,0.772258924693397,0.05660630259514925,0.8749875573361058,0.605325679250325,20.359667453208804,14.597330789775308,25,239,1200

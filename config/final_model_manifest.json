@@ -1,0 +1,72 @@
+{
+  "data_release": "V5_FINAL_AUDITED_2026-09-10",
+  "protocol_id": "FINAL_FIXED_BASELINE_INCLUSIVE_5X5",
+  "protocol": "V5 audited data/leakage-control protocol + V4 predefined task-specific view/K + grouped inner-CV model selection + baseline-inclusive neat-EP masking/leakage guard + four-category nominal preparation-method encoding + without-BDE main models",
+  "selection_scope": "fixed",
+  "row_policy": "baseline_inclusive",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "feature_scope": "all",
+  "use_BDE": false,
+  "outer_splits": 5,
+  "inner_splits": 5,
+  "formal_results": {
+    "core": "results/scientific_validation/FINAL_core_fixed_baseline_inclusive_5x5",
+    "auxiliary": "results/scientific_validation/FINAL_aux_fixed_baseline_inclusive_5x5",
+    "exploratory": "results/scientific_validation/FINAL_exploratory_fixed_baseline_inclusive_5x5",
+    "delta": "results/scientific_validation/FINAL_Delta_fixed_5x5",
+    "grouping_sensitivity": "results/scientific_validation/FINAL_grouping_sensitivity_5x5",
+    "information_source_ablation": "results/scientific_validation/FINAL_information_source_ablation_5x5",
+    "bde_paired_ablation": "results/scientific_validation/FINAL_BDE_paired_ablation_5x5"
+  },
+  "downstream_results": {
+    "shap_core": "results/05_Shap/FINAL_core_fixed_baseline_inclusive_5x5",
+    "shap_auxiliary": "results/05_Shap/FINAL_aux_fixed_baseline_inclusive_5x5",
+    "applicability_domain": "results/06_ApplicabilityDomain/FINAL_fixed_5x5",
+    "reverse_design": "results/06_ReverseDesign/FINAL_fixed",
+    "external_validation": "results/10_ExternalValidation/FINAL_fixed"
+  },
+  "task_configs": {
+    "LOI": {
+      "view": "compact",
+      "K": 260,
+      "tier": "core"
+    },
+    "PHRR": {
+      "view": "compact",
+      "K": 330,
+      "tier": "core"
+    },
+    "THR": {
+      "view": "descriptors",
+      "K": 30,
+      "tier": "core"
+    },
+    "UL94_V0": {
+      "view": "morgan_r3",
+      "K": "ALL",
+      "tier": "core"
+    },
+    "Tg": {
+      "view": "morgan_r3",
+      "K": 270,
+      "tier": "auxiliary"
+    },
+    "TS_MPa": {
+      "view": "compact",
+      "K": 140,
+      "tier": "auxiliary"
+    },
+    "Char_yield": {
+      "view": "full_interaction",
+      "K": 100,
+      "tier": "exploratory"
+    },
+    "FS_MPa": {
+      "view": "morgan_r3",
+      "K": 240,
+      "tier": "exploratory"
+    }
+  },
+  "feature_encoding_note": "Preparation_Method is one-hot nominal only; Preparation_Method_num is metadata, not a predictive feature."
+}

@@ -1,0 +1,13 @@
+task,n,frozen_view,K,R2_mean,R2_std,RMSE_mean,MAE_mean,Macro_F1_mean,Accuracy_mean,Balanced_Accuracy_mean,ROC_AUC_mean,selected_model_frequency
+LOI,599,compact,260,0.716 ,0.036 ,2.595 ,1.992 ,,,,,GBDT(3); ExtraTrees(1); SoftVote£¨1£©
+PHRR,406,compact,330,0.604 ,0.042 ,216.783 ,161.569 ,,,,,"[[""GBDT"", 3], [""SoftVote"", 1], [""LGBM"", 1]]"
+THR,397,descriptors,30,0.483 ,0.133 ,18.165 ,12.431 ,,,,,"[[""GBDT"", 3], [""ExtraTrees"", 1], [""LGBM"", 1]]"
+UL94_V0,599,morgan_r3,ALL,,,,,0.779 ,0.781 ,0.788 ,0.869 ,ExtraTrees£¨4£©£» GBDT(1)
+Tg,357,morgan_r3,270,0.521 ,0.097 ,15.719 ,10.881 ,,,,,"[[""XGB"", 3], [""SoftVote"", 2]]"
+Char_yield,196,full_interaction,100,0.258 ,0.374 ,4.277 ,3.020 ,,,,,"[[""SVR"", 3], [""LGBM"", 1], [""RF"", 1]]"
+TS_MPa,256,compact,140,0.462 ,0.089 ,11.558 ,9.352 ,,,,,"[[""GBDT"", 2], [""XGB"", 1], [""RF"", 1], [""SoftVote"", 1]]"
+FS_MPa,228,morgan_r3,240,0.344 ,0.221 ,25.370 ,17.067 ,,,,,"[[""RF"", 3], [""SoftVote"", 2]]"
+Delta_LOI,468,descriptors,30,0.468 ,0.141 ,2.710 ,2.156 ,,,,,"[[""RF"", 2], [""GBDT"", 2], [""SVR"", 1]]"
+Delta_PHRR,289,maccs,240,0.215 ,0.226 ,172.879 ,136.648 ,,,,,"[[""RF"", 3], [""GBDT"", 1], [""ExtraTrees"", 1]]"
+Delta_THR,283,descriptors,120,0.115 ,0.381 ,14.535 ,9.503 ,,,,,"[[""GBDT"", 2], [""LGBM"", 2], [""ExtraTrees"", 1]]"
+Delta_CY,148,descriptors,180,-0.038 ,0.559 ,3.550 ,2.673 ,,,,,"[[""ExtraTrees"", 2], [""SVR"", 1], [""RF"", 1], [""SoftVote"", 1]]"

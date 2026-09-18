@@ -1,0 +1,64 @@
+{
+  "tasks": [
+    "LOI",
+    "PHRR",
+    "THR",
+    "UL94_V0",
+    "Tg",
+    "TS_MPa"
+  ],
+  "training": "data\\DOPO_EP_new_with_BDE.csv",
+  "formulations": "results\\06_ReverseDesign\\FINAL_fixed\\combined_flux35\\candidate_formulation_grid.csv",
+  "reliable_threshold": 0.7,
+  "caution_threshold": 0.5,
+  "models": [
+    {
+      "task": "LOI",
+      "bundle": "results\\scientific_validation\\FINAL_core_fixed_baseline_inclusive_5x5\\LOI\\molecule\\formulation\\without_BDE\\LOI_final_model_bundle.joblib",
+      "model": "GBDT",
+      "view": "compact",
+      "K": 260,
+      "use_BDE": false
+    },
+    {
+      "task": "PHRR",
+      "bundle": "results\\scientific_validation\\FINAL_core_fixed_baseline_inclusive_5x5\\PHRR\\molecule\\formulation\\without_BDE\\PHRR_final_model_bundle.joblib",
+      "model": "GBDT",
+      "view": "compact",
+      "K": 330,
+      "use_BDE": false
+    },
+    {
+      "task": "THR",
+      "bundle": "results\\scientific_validation\\FINAL_core_fixed_baseline_inclusive_5x5\\THR\\molecule\\formulation\\without_BDE\\THR_final_model_bundle.joblib",
+      "model": "GBDT",
+      "view": "descriptors",
+      "K": 30,
+      "use_BDE": false
+    },
+    {
+      "task": "UL94_V0",
+      "bundle": "results\\scientific_validation\\FINAL_core_fixed_baseline_inclusive_5x5\\UL94_V0\\molecule\\formulation\\without_BDE\\UL94_V0_final_model_bundle.joblib",
+      "model": "ExtraTrees",
+      "view": "morgan_r3",
+      "K": null,
+      "use_BDE": false
+    },
+    {
+      "task": "Tg",
+      "bundle": "results\\scientific_validation\\FINAL_aux_fixed_baseline_inclusive_5x5\\Tg\\molecule\\formulation\\without_BDE\\Tg_final_model_bundle.joblib",
+      "model": "XGB",
+      "view": "morgan_r3",
+      "K": 270,
+      "use_BDE": false
+    },
+    {
+      "task": "TS_MPa",
+      "bundle": "results\\scientific_validation\\FINAL_aux_fixed_baseline_inclusive_5x5\\TS_MPa\\molecule\\formulation\\without_BDE\\TS_MPa_final_model_bundle.joblib",
+      "model": "GBDT",
+      "view": "compact",
+      "K": 140,
+      "use_BDE": false
+    }
+  ]
+}

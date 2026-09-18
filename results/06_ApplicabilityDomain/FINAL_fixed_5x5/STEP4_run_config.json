@@ -1,0 +1,21 @@
+{
+  "results_root": "results\\05_Shap\\FINAL_core_fixed_baseline_inclusive_5x5",
+  "output": "results\\06_ApplicabilityDomain\\FINAL_fixed_5x5",
+  "tasks": [
+    "LOI",
+    "PHRR",
+    "THR",
+    "UL94_V0"
+  ],
+  "radius": 3,
+  "nbits": 2048,
+  "reliable_threshold": 0.7,
+  "caution_threshold": 0.5,
+  "bootstrap_iterations": 1000,
+  "random_state": 42,
+  "formats": [
+    "png",
+    "pdf"
+  ],
+  "dpi": 600
+}

@@ -1,0 +1,61 @@
+{
+  "version": "V5_FINAL_AUDITED_2026-09-10",
+  "old_results_included": "none; current frozen-data result set only",
+  "single_core": "common/pipeline_core.py",
+  "single_config": "config/task_config.json",
+  "rules": {
+    "seeds": [
+      42,
+      52,
+      62,
+      72,
+      82
+    ],
+    "test_size": 0.2,
+    "group_rules": {
+      "MAIN_CO": [
+        "LOI",
+        "PHRR",
+        "THR",
+        "UL94_V0",
+        "Char_yield",
+        "Delta_LOI",
+        "Delta_PHRR",
+        "Delta_THR",
+        "Delta_CY"
+      ],
+      "MAIN_CO_CURING": [
+        "Tg",
+        "TS_MPa",
+        "FS_MPa"
+      ]
+    },
+    "neat_ep_absolute_tasks": "Primary formal absolute-property evaluation is baseline-inclusive. Valid neat EP rows are retained; on neat EP rows, FR-derived molecular/fingerprint/composition/synergy/interaction features are masked, and the task-matching EP_matrix feature is masked where present. Overall metrics are primary and modified-formulation test-subset metrics are sensitivity analysis.",
+    "delta_tasks": "Neat EP is a baseline/reference source but is not a Delta target. Explicit Loading_total_FR=0 rows are excluded from Delta target evaluation; rows with unknown loading are retained only when the Delta target is valid.",
+    "strict_validation": "FINAL evaluation uses 5x5 molecule-grouped nested CV with fold-internal preprocessing. Task-specific feature view/K are predefined from development-stage V4 sensitivity analyses; only the predictive model is selected by grouped inner CV within each outer-training fold.",
+    "development_workflow": "repeated_group_holdout",
+    "formal_evaluation": "nested_group_cv_5x5",
+    "paper_screening_policy": "final manuscript screening uses the combined designed+PubChem candidate pool; 50 kW/m2 is the primary cone-flux scenario and 35 kW/m2 is sensitivity analysis; final_priority_combined is the final priority source",
+    "paper_output_policy": "Main text uses FINAL fixed-view/K baseline-inclusive 5x5 molecule-grouped nested validation; overall metrics are primary, modified-formulation subset metrics are sensitivity analysis, and development repeated-group-holdout or curated/modified-only results must not silently replace FINAL results.",
+    "formal_protocol_id": "FINAL_FIXED_BASELINE_INCLUSIVE_5X5",
+    "formal_selection_scope": "fixed",
+    "formal_row_policy": "baseline_inclusive",
+    "formal_split_strategy": "molecule",
+    "formal_screening_mode": "formulation",
+    "formal_bde_mode": "without",
+    "formal_outer_inner_splits": "5x5",
+    "modified_only_role": "sensitivity/subset evaluation; not the primary formal absolute-property result",
+    "formal_outer_splits": 5,
+    "formal_inner_splits": 5,
+    "preparation_method_encoding": "Preparation_Method has four canonical nominal categories. Modeling uses one-hot encoding only; Preparation_Method_num is retained as a record-management code and is not an ordinal predictive feature. Preparation/Synergy FR-derived categorical features are neutralized on neat-EP rows.",
+    "delta_definition": "All stored Delta fields are recalculated as DeltaY = Y_modified_FR/EP - Y_matched_neat_EP whenever both values are available. Neat-EP rows are reference rows and are excluded from formal Delta targets.",
+    "element_content_definition": "P/N/S/B/Si_content wt% are formulation-level elemental contents. Legacy *_loading_real engineered features are Loading_total_FR × elemental_content / 100 interaction terms and must not be interpreted as a second elemental-loading calculation."
+  },
+  "data_sha256": {
+    "DOPO_EP_new.csv": "6970ac8d847eeda9c62d70f5871cd89ffd3bc3f5ac6523febe77efe1c0eccae3",
+    "DOPO_EP_new_with_BDE.csv": "19aaf506d013f7e7b4807bab1f15d767f329ff17d10ea861295d0a35997a5eb4"
+  },
+  "project_name": "ML_DOPO_Project",
+  "molecule_identity_rule": "full-component canonical SMILES; salts/multicomponent structures preserve all components and stoichiometry",
+  "results_status": "Audited data/feature release finalized. FINAL manuscript-facing results were regenerated and audited under FINAL_FIXED_BASELINE_INCLUSIVE_5X5."
+}

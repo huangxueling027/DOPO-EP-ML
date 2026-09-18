@@ -1,0 +1,44 @@
+﻿field_order,field,description,unit_or_encoding,pandas_dtype,non_missing_n,missing_n,missing_rate_percent,unique_non_missing
+1,Record_ID,Record ID,identifier,object,599,0,0.0,599
+2,FR_main,Main DOPO-derived flame retardant name,dimensionless / text,object,599,0,0.0,138
+3,FR_co,Co-flame-retardant or synergist name,dimensionless / text,object,22,577,96.327,7
+4,Curing_Agent,Epoxy curing-agent name,dimensionless / text,object,591,8,1.336,9
+5,Preparation_Method,"Standardized nominal preparation method: additive, reactive, co-curing, or additive plus secondary crosslinking",dimensionless / text,object,599,0,0.0,4
+6,Synergy_type,Elemental or structural synergistic category,dimensionless / text,object,599,0,0.0,15
+7,SMILES_main,SMILES of main flame retardant,SMILES,object,599,0,0.0,141
+8,SMILES_co,SMILES of co-flame-retardant/synergist,SMILES,object,24,575,95.993,7
+9,SMILES_Curing_Agent,SMILES of curing agent,SMILES,object,591,8,1.336,9
+10,Loading_total_FR wt%,Total flame-retardant loading relative to the formulation,wt%,float64,599,0,0.0,175
+11,P_content wt%,Formulation-level phosphorus content,wt%,float64,599,0,0.0,159
+12,N_content wt%,Formulation-level nitrogen content,wt%,float64,599,0,0.0,205
+13,S_content wt%,Formulation-level sulfur content,wt%,float64,599,0,0.0,50
+14,B_content wt%,Formulation-level boron content,wt%,float64,599,0,0.0,19
+15,Si_content wt%,Formulation-level silicon content,wt%,float64,596,3,0.501,60
+16,Cure_Temp_Max,Highest reported curing temperature,°C,float64,594,5,0.835,17
+17,LOI_Thickness_mm,LOI Thickness mm,mm,float64,547,52,8.681,5
+18,LOI,Limiting oxygen index,%,float64,599,0,0.0,178
+19,EP_matrix_LOI,EP matrix LOI,%,float64,599,0,0.0,55
+20,Delta_LOI,LOI difference relative to matched neat-EP baseline,percentage points,float64,599,0,0.0,218
+21,UL94_Thickness_mm,UL94 Thickness mm,mm,float64,540,59,9.85,4
+22,UL94,UL-94 vertical burning class,class,object,599,0,0.0,4
+23,Cone_Thickness_mm,Cone Thickness mm,mm,float64,495,104,17.362,7
+24,Cone_flux_kW_m2,Cone-calorimeter external heat flux; not inferred from PHRR/THR,kW m^-2,float64,494,105,17.529,3
+25,PHRR_kw_㎡,Peak heat-release rate,kW m^-2,float64,406,193,32.22,362
+26,EP_matrix_PHRR,EP matrix PHRR,kW m^-2,float64,403,196,32.721,100
+27,Delta_PHRR,PHRR difference relative to matched neat-EP baseline,kW m^-2,float64,403,196,32.721,267
+28,THR_MJ_㎡,Total heat release,MJ m^-2,float64,397,202,33.723,295
+29,EP_matrix_THR,EP matrix THR,MJ m^-2,float64,394,205,34.224,95
+30,Delta_THR,THR difference relative to matched neat-EP baseline,MJ m^-2,float64,394,205,34.224,221
+31,Tg_℃,"Glass-transition temperature, preferentially DMA according to database rules",°C,float64,357,242,40.401,215
+32,EP_matrix_Tg,EP matrix Tg,°C,float64,356,243,40.568,69
+33,Char_yield_％_700C,Char yield at 700 °C,%,float64,196,403,67.279,130
+34,EP_matrix_CY,EP matrix CY,%,float64,196,403,67.279,38
+35,Delta_CY,Char-yield difference relative to matched neat-EP baseline,percentage points,float64,196,403,67.279,114
+36,TS_MPa,Tensile strength,MPa,float64,256,343,57.262,210
+37,EP_matrix_TS,EP matrix TS,MPa,float64,256,343,57.262,61
+38,FS_MPa,Flexural strength,MPa,float64,228,371,61.937,188
+39,EP_matrix_FS,EP matrix FS,MPa,float64,228,371,61.937,51
+40,FR_main_BDE_final_kJ_mol,FR main BDE final kJ mol,kJ mol^-1,float64,446,153,25.543,127
+41,FR_main_BDE_available,FR main BDE available,binary,int64,599,0,0.0,2
+42,FR_main_BDE_source,FR main BDE source,category,object,599,0,0.0,3
+43,FR_main_BDE_low_confidence,FR main BDE low confidence,binary,int64,599,0,0.0,2

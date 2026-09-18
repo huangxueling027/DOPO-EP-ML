@@ -1,0 +1,17 @@
+{
+  "task": "Delta_THR",
+  "task_type": "regression",
+  "view": "descriptors",
+  "requested_k": 120,
+  "model_name": "GBDT",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "row_policy": "baseline_inclusive",
+  "feature_scope": "all",
+  "use_BDE": false,
+  "descriptor_mode": "advanced",
+  "use_V7_formula_features": false,
+  "conformal_q": 90.57908473024864,
+  "conformal_alpha": 0.05,
+  "conformal_n_calibration": 57
+}

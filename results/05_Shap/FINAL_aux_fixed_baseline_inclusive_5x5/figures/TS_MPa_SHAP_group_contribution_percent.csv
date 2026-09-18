@@ -1,0 +1,9 @@
+﻿feature_group,group_label,contribution,contribution_percent
+curing_and_preparation,Curing and preparation,0.1986399985308407,1.0834164835503837
+elemental_composition,Elemental composition,0.6233869988348236,3.400059178231375
+formulation_interaction,formulation_interaction,0.6740061919483751,3.6761449042123235
+formulation_loading,Formulation and loading,1.5692370824531898,8.558887103819307
+other,Other features,1.9872152334638795,10.838611338203977
+molecular_fingerprint,Molecular fingerprints,2.480239052737945,13.527647466552299
+molecular_descriptor,Molecular descriptors,2.72179209183587,14.845119003734927
+ep_baseline,EP baseline property,8.080075960406461,44.070114521695416
