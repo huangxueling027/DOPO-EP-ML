@@ -52,3 +52,4 @@ results/**/*_final_model_bundle.joblib
 !results/scientific_validation/FINAL_core_fixed_baseline_inclusive_5x5/**/*_final_model_bundle.joblib
 !results/scientific_validation/FINAL_aux_fixed_baseline_inclusive_5x5/**/*_final_model_bundle.joblib
 !results/scientific_validation/FINAL_exploratory_fixed_baseline_inclusive_5x5/**/*_final_model_bundle.joblib
+results/09_PaperFigures/supplementary/*.png
