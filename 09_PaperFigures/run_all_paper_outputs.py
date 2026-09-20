@@ -23,22 +23,42 @@ def main() -> None:
     p.add_argument("--output-root", default="results/09_PaperFigures")
     p.add_argument("--tables-output", default="results/09_PaperTables")
     p.add_argument("--main-tables-output", default="results/09_MainTextTables")
+    p.add_argument("--dpi", type=int, default=900, help="Raster PNG export DPI (minimum enforced: 600).")
     p.add_argument("--skip-audit", action="store_true")
     p.add_argument("--skip-main", action="store_true")
     p.add_argument("--skip-supplementary", action="store_true")
     p.add_argument("--skip-tables", action="store_true")
+    p.add_argument("--skip-resolution-audit", action="store_true")
     args = p.parse_args()
 
     if not args.skip_audit:
         call("audit_paper_inputs.py", "--results-root", args.results_root, "--output", str(Path(args.output_root) / "audit"))
     if not args.skip_main:
-        call("make_main_figures.py", "--results-root", args.results_root, "--output", str(Path(args.output_root) / "main"))
+        call(
+            "make_main_figures.py",
+            "--results-root", args.results_root,
+            "--output", str(Path(args.output_root) / "main"),
+            "--dpi", str(args.dpi),
+        )
     if not args.skip_supplementary:
-        call("make_supplementary_figures.py", "--results-root", args.results_root, "--output", str(Path(args.output_root) / "supplementary"))
+        call(
+            "make_supplementary_figures.py",
+            "--results-root", args.results_root,
+            "--output", str(Path(args.output_root) / "supplementary"),
+            "--dpi", str(args.dpi),
+        )
     if not args.skip_tables:
         call("build_paper_tables.py", "--results-root", args.results_root, "--output", args.tables_output)
         call("build_main_text_tables.py", "--tables-root", args.tables_output, "--output", args.main_tables_output)
-    print("\n[DONE] Paper output workflow completed. Check figure/table manifests before manuscript assembly.")
+    if not args.skip_resolution_audit:
+        call(
+            "audit_figure_resolution.py",
+            "--figures-root", args.output_root,
+            "--report", str(Path(args.output_root) / "figure_resolution_audit.csv"),
+            "--target-width-mm", "190",
+            "--min-effective-dpi", "500",
+        )
+    print("\n[DONE] Paper output workflow completed. Check figure/table manifests and figure_resolution_audit.csv before manuscript assembly.")
 
 
 if __name__ == "__main__":

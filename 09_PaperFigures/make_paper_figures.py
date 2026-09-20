@@ -15,9 +15,15 @@ def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--results-root", default="results")
     p.add_argument("--output", default="results/09_PaperFigures")
+    p.add_argument("--dpi", type=int, default=900, help="Raster PNG export DPI (minimum enforced: 600).")
     args = p.parse_args()
     for script, subfolder in [("make_main_figures.py", "main"), ("make_supplementary_figures.py", "supplementary")]:
-        command = [sys.executable, "-u", str(HERE / script), "--results-root", args.results_root, "--output", str(Path(args.output) / subfolder)]
+        command = [
+            sys.executable, "-u", str(HERE / script),
+            "--results-root", args.results_root,
+            "--output", str(Path(args.output) / subfolder),
+            "--dpi", str(args.dpi),
+        ]
         print("[RUN]", " ".join(command))
         subprocess.run(command, cwd=str(ROOT), check=True)
 

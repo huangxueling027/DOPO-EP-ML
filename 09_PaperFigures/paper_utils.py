@@ -292,7 +292,37 @@ def _strengthen_export_text(fig: plt.Figure) -> None:
             txt.set_fontweight("medium")
 
 
-def save_figure(fig: plt.Figure, output_base: Path, *, dpi: int = 900, apply_layout: bool = True) -> list[Path]:
+def _resolve_export_dpi(dpi: int | None = None, *, minimum: int = 600) -> int:
+    """Return a publication-safe raster export DPI.
+
+    ``--dpi`` is propagated through Matplotlib's ``savefig.dpi`` rcParam by the
+    entry-point scripts.  Earlier versions of this helper hard-coded 900 dpi,
+    which meant the command-line option did not actually control PNG output.
+    We now respect the requested value while keeping a 600-dpi safety floor for
+    Word/WPS raster copies.  PDF/SVG remain vector outputs and are preferred for
+    journal submission.
+    """
+    value = dpi if dpi is not None else mpl.rcParams.get("savefig.dpi", minimum)
+    try:
+        value_i = int(float(value))
+    except (TypeError, ValueError):
+        value_i = minimum
+    return max(value_i, minimum)
+
+
+def save_figure(
+    fig: plt.Figure,
+    output_base: Path,
+    *,
+    dpi: int | None = None,
+    apply_layout: bool = True,
+) -> list[Path]:
+    """Export one figure as vector PDF/SVG plus a high-resolution PNG.
+
+    Journal submission: use the PDF whenever possible (text/lines remain
+    vector).  Manuscript/SI assembly in Word or WPS: use the PNG, exported at
+    >=600 dpi (900 dpi by default in the figure entry points).
+    """
     output_base.parent.mkdir(parents=True, exist_ok=True)
     _strengthen_export_text(fig)
     # Harmonise legends and remove accidental box styling before export.
@@ -316,9 +346,32 @@ def save_figure(fig: plt.Figure, output_base: Path, *, dpi: int = 900, apply_lay
             fig.tight_layout(pad=1.15 if _CURRENT_FIGURE_TIER == "main" else 0.95, rect=rect)
         except Exception:
             pass
-    fig.savefig(paths[0], bbox_inches="tight", pad_inches=pad)
-    fig.savefig(paths[1], dpi=max(int(dpi), 900), bbox_inches="tight", pad_inches=pad)
-    fig.savefig(paths[2], bbox_inches="tight", pad_inches=pad)
+
+    raster_dpi = _resolve_export_dpi(dpi)
+    fig.savefig(
+        paths[0],
+        format="pdf",
+        bbox_inches="tight",
+        pad_inches=pad,
+        metadata={"Title": output_base.name, "Creator": "Matplotlib"},
+    )
+    fig.savefig(
+        paths[1],
+        format="png",
+        dpi=raster_dpi,
+        bbox_inches="tight",
+        pad_inches=pad,
+        facecolor="white",
+        transparent=False,
+    )
+    fig.savefig(
+        paths[2],
+        format="svg",
+        bbox_inches="tight",
+        pad_inches=pad,
+        facecolor="white",
+        transparent=False,
+    )
     plt.close(fig)
     return paths
 
