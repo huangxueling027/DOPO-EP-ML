@@ -1,43 +1,43 @@
-task,feature,feature_group,mean_abs_shap_all_folds,top20_frequency,direction_consistency,mean_rank_all_folds,stability_level
-LOI,P_x_curing_RotBonds,molecular_descriptor,0.865 ,0.8,0.8,5,High
-LOI,P_x_curing_LogP,molecular_descriptor,0.315 ,1,0.8,5.8,High
-LOI,P_x_curing_HBD,molecular_descriptor,0.263 ,1,0.8,7.2,High
-LOI,P_loading_x_Synergy,formulation_loading,0.208 ,0.8,0.8,10.6,High
-LOI,main_TPSA,molecular_descriptor,0.199 ,0.8,0.8,12.2,High
-LOI,P_Si_loading_ratio,formulation_loading,0.195 ,0.8,0.8,16.2,High
-LOI,P_content_x_EP_matrix_LOI,formulation_interaction,0.286 ,1,0.6,6,Medium
-LOI,Synergy_x_EP_matrix_LOI,formulation_interaction,0.247 ,0.8,0.75,62.4,Medium
-PHRR,main_TPSA,molecular_descriptor,11.894 ,0.8,0.8,14.8,High
-PHRR,main_FractionCSP3,molecular_descriptor,11.709 ,0.8,0.8,14.6,High
-PHRR,main_RotBonds,other,9.991 ,0.8,1,14.2,High
-PHRR,EP_matrix_PHRR,ep_baseline,44.800 ,1,0.6,2.4,Medium
-PHRR,P_x_curing_HBA,molecular_descriptor,37.199 ,1,0.6,4.6,Medium
-PHRR,P_x_curing_TPSA,molecular_descriptor,29.315 ,1,0.6,4.8,Medium
-PHRR,EP_matrix_PHRR_sq,ep_baseline,26.837 ,1,0.6,4.4,Medium
-PHRR,EP_matrix_PHRR_sqrt,ep_baseline,26.555 ,0.8,0.6,13.2,Medium
-THR,P_x_curing_LogP,molecular_descriptor,1.346 ,1,0.8,7,High
-THR,N_loading_real_sqrt,formulation_loading,0.547 ,0.8,0.8,14.8,High
-THR,Loading_total_FR wt%,formulation_loading,0.487 ,0.8,0.8,15.8,High
-THR,Loading_total_FR_sqrt,formulation_loading,0.450 ,0.8,0.8,15,High
-THR,P_x_curing_HeavyAtomCount,molecular_descriptor,0.253 ,0.8,0.8,18.8,High
-THR,N/P ratio,elemental_composition,0.209 ,0.8,0.8,20,High
-THR,EP_matrix_THR,ep_baseline,3.348 ,1,0.6,3.2,Medium
-THR,Synergy_x_EP_matrix_THR,formulation_interaction,2.439 ,0.8,0.75,9.6,Medium
-UL94_V0,P_x_CuringAgent_Has_N,molecular_descriptor,0.012 ,1,1,8.2,High
-UL94_V0,P_loading_x_Synergy,formulation_loading,0.012 ,1,0.8,13.2,High
-UL94_V0,P_x_curing_LogP,molecular_descriptor,0.011 ,1,1,12.8,High
-UL94_V0,P_x_curing_AromaticRings,molecular_descriptor,0.011 ,1,0.8,7.2,High
-UL94_V0,P_x_curing_HBD,molecular_descriptor,0.011 ,1,0.8,7.4,High
-UL94_V0,Loading_total_FR_sqrt,formulation_loading,0.009 ,0.8,1,25.8,High
-UL94_V0,Loading_x_Synergy,formulation_loading,0.008 ,1,0.8,9.8,High
-UL94_V0,P_content_sqrt,elemental_composition,0.008 ,0.8,1,28,High
-Tg,EP_matrix_Tg,ep_baseline,4.656 ,1,0.8,1,High
-Tg,EP_matrix_Tg_sq,ep_baseline,1.447 ,1,0.8,5.2,High
-Tg,EP_matrix_Tg_sqrt,ep_baseline,0.646 ,0.8,0.8,12.6,High
-Tg,Cure_Temp_Max,curing_and_preparation,2.400 ,1,0.6,2.6,Medium
-Tg,CuringAgent_Has_S,molecular_descriptor,2.387 ,1,0.6,3,Medium
-TS_MPa,EP_matrix_TS_sq,ep_baseline,2.349 ,1,0.8,1.8,High
-TS_MPa,EP_matrix_TS_sqrt,ep_baseline,1.982 ,1,0.8,3.2,High
-TS_MPa,Synergy_x_EP_matrix_TS,formulation_interaction,0.674 ,1,1,6.8,High
-TS_MPa,EP_matrix_TS,ep_baseline,3.748 ,1,0.6,1.8,Medium
-TS_MPa,main_RotBonds,other,0.384 ,0.6,0.75,49,Medium
+﻿Task,Feature,Feature group,Mean |SHAP|,Top-20 frequency,Direction consistency,Mean rank,Stability
+LOI,P_x_curing_RotBonds,molecular_descriptor,0.865,0.8,0.8,5.0,High
+LOI,P_x_curing_LogP,molecular_descriptor,0.315,1.0,0.8,5.8,High
+LOI,P_x_curing_HBD,molecular_descriptor,0.263,1.0,0.8,7.2,High
+LOI,P_loading_x_Synergy,formulation_loading,0.208,0.8,0.8,10.6,High
+LOI,main_TPSA,molecular_descriptor,0.199,0.8,0.8,12.2,High
+LOI,P_Si_loading_ratio,formulation_loading,0.195,0.8,0.8,16.2,High
+LOI,P_content_x_EP_matrix_LOI,formulation_interaction,0.286,1.0,0.6,6.0,Medium
+LOI,Synergy_x_EP_matrix_LOI,formulation_interaction,0.247,0.8,0.75,62.4,Medium
+PHRR,main_TPSA,molecular_descriptor,11.894,0.8,0.8,14.8,High
+PHRR,main_FractionCSP3,molecular_descriptor,11.709,0.8,0.8,14.6,High
+PHRR,main_RotBonds,other,9.991,0.8,1.0,14.2,High
+PHRR,EP_matrix_PHRR,ep_baseline,44.8,1.0,0.6,2.4,Medium
+PHRR,P_x_curing_HBA,molecular_descriptor,37.199,1.0,0.6,4.6,Medium
+PHRR,P_x_curing_TPSA,molecular_descriptor,29.315,1.0,0.6,4.8,Medium
+PHRR,EP_matrix_PHRR_sq,ep_baseline,26.837,1.0,0.6,4.4,Medium
+PHRR,EP_matrix_PHRR_sqrt,ep_baseline,26.555,0.8,0.6,13.2,Medium
+THR,P_x_curing_LogP,molecular_descriptor,1.346,1.0,0.8,7.0,High
+THR,N_loading_real_sqrt,formulation_loading,0.547,0.8,0.8,14.8,High
+THR,Loading_total_FR wt%,formulation_loading,0.487,0.8,0.8,15.8,High
+THR,Loading_total_FR_sqrt,formulation_loading,0.45,0.8,0.8,15.0,High
+THR,P_x_curing_HeavyAtomCount,molecular_descriptor,0.253,0.8,0.8,18.8,High
+THR,N/P ratio,elemental_composition,0.209,0.8,0.8,20.0,High
+THR,EP_matrix_THR,ep_baseline,3.348,1.0,0.6,3.2,Medium
+THR,Synergy_x_EP_matrix_THR,formulation_interaction,2.439,0.8,0.75,9.6,Medium
+UL-94 V-0,P_x_CuringAgent_Has_N,molecular_descriptor,0.012,1.0,1.0,8.2,High
+UL-94 V-0,P_loading_x_Synergy,formulation_loading,0.012,1.0,0.8,13.2,High
+UL-94 V-0,P_x_curing_LogP,molecular_descriptor,0.011,1.0,1.0,12.8,High
+UL-94 V-0,P_x_curing_AromaticRings,molecular_descriptor,0.011,1.0,0.8,7.2,High
+UL-94 V-0,P_x_curing_HBD,molecular_descriptor,0.011,1.0,0.8,7.4,High
+UL-94 V-0,Loading_total_FR_sqrt,formulation_loading,0.009,0.8,1.0,25.8,High
+UL-94 V-0,Loading_x_Synergy,formulation_loading,0.008,1.0,0.8,9.8,High
+UL-94 V-0,P_content_sqrt,elemental_composition,0.008,0.8,1.0,28.0,High
+Tg,EP_matrix_Tg,ep_baseline,4.656,1.0,0.8,1.0,High
+Tg,EP_matrix_Tg_sq,ep_baseline,1.447,1.0,0.8,5.2,High
+Tg,EP_matrix_Tg_sqrt,ep_baseline,0.646,0.8,0.8,12.6,High
+Tg,Cure_Temp_Max,curing_and_preparation,2.4,1.0,0.6,2.6,Medium
+Tg,CuringAgent_Has_S,molecular_descriptor,2.387,1.0,0.6,3.0,Medium
+TS,EP_matrix_TS_sq,ep_baseline,2.349,1.0,0.8,1.8,High
+TS,EP_matrix_TS_sqrt,ep_baseline,1.982,1.0,0.8,3.2,High
+TS,Synergy_x_EP_matrix_TS,formulation_interaction,0.674,1.0,1.0,6.8,High
+TS,EP_matrix_TS,ep_baseline,3.748,1.0,0.6,1.8,Medium
+TS,main_RotBonds,other,0.384,0.6,0.75,49.0,Medium

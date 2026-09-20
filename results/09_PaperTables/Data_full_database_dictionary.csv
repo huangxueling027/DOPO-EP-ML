@@ -49,7 +49,7 @@
 48,THR_MJ_㎡,Total heat release,MJ m^-2,float64,397,202,33.723,295
 49,EP_matrix_THR,EP matrix THR,MJ m^-2,float64,394,205,34.224,95
 50,Delta_THR,THR difference relative to matched neat-EP baseline,MJ m^-2,float64,394,205,34.224,221
-51,Tg_℃,"Glass-transition temperature, preferentially DMA according to database rules",°C,float64,357,242,40.401,215
+51,Tg_℃,Glass-transition temperature measured by dynamic mechanical analysis (DMA),°C,float64,357,242,40.401,215
 52,EP_matrix_Tg,EP matrix Tg,°C,float64,356,243,40.568,69
 53,Delta_Tg,Delta Tg,°C,float64,356,243,40.568,167
 54,Char_yield_％_700C,Char yield at 700 °C,%,float64,196,403,67.279,130

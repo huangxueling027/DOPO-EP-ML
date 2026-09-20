@@ -1,0 +1,11 @@
+{
+  "input": "C:\\Users\\26981\\OneDrive\\Desktop\\python_work\\ML_DOPO_Project_V5\\data\\DOPO_EP_new_with_BDE.csv",
+  "tasks": "LOI,PHRR,THR,UL94_V0",
+  "results": "results\\scientific_validation\\FINAL_null_tests",
+  "outer_splits": 5,
+  "permutations": 999,
+  "model": "ExtraTrees",
+  "random_state": 42,
+  "row_policy": "baseline_inclusive",
+  "progress_every": 100
+}

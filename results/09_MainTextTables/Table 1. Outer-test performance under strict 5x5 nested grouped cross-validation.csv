@@ -1,0 +1,7 @@
+﻿Task,n,Primary metric,Performance,Secondary metrics
+LOI,599,R²,0.716 ± 0.036,RMSE = 2.60; MAE = 1.99
+PHRR,406,R²,0.604 ± 0.042,RMSE = 216.78 kW·m^-2; MAE = 161.57 kW·m^-2
+THR,397,R²,0.483 ± 0.133,RMSE = 18.17 MJ·m^-2; MAE = 12.43 MJ·m^-2
+UL-94,599,Macro-F1,0.779 ± 0.031,Balanced Accuracy = 0.788; ROC-AUC = 0.869
+Tg,357,R²,0.521 ± 0.097,RMSE = 15.72 °C; MAE = 10.88 °C
+TS,256,R²,0.462 ± 0.089,RMSE = 11.56 MPa; MAE = 9.35 MPa

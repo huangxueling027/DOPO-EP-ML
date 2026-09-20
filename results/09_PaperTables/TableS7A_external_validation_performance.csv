@@ -1,12 +1,6 @@
-task,task_type,n,MAE,RMSE,R2,Spearman_rho,PICP,Accuracy,Balanced_accuracy,Macro_F1,ROC_AUC,,,,
-LOI,regression,20,2.470 ,2.956 ,-0.208 ,0.525 ,0.900 ,,,,,,,,
-PHRR,regression,9,92.347 ,130.059 ,0.814 ,0.983 ,1.000 ,,,,,,,,
-THR,regression,9,3.990 ,4.969 ,0.722 ,0.933 ,1.000 ,,,,,,,,
-UL94_V0,classification,20,,,,,,0.550 ,0.522 ,0.520 ,0.648 ,,,,
-TS_MPa,regression,10,23.347 ,25.138 ,-0.531 ,0.875 ,0.500 ,,,,,,,,
-,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,
+﻿Task,Task type,n,MAE,RMSE,R²,Spearman ρ,PICP,Accuracy,Balanced accuracy,Macro-F1,ROC-AUC
+LOI,regression,20,2.470,2.956,-0.208,0.525,0.900,--,--,--,--
+PHRR,regression,9,92.347,130.059,0.814,0.983,1.000,--,--,--,--
+THR,regression,9,3.990,4.969,0.722,0.933,1.000,--,--,--,--
+UL-94 V-0,classification,20,--,--,--,--,--,0.550,0.522,0.520,0.648
+TS,regression,10,23.347,25.138,-0.531,0.875,0.500,--,--,--,--

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Build compact Supplementary Tables S1-S7 plus machine-readable source data.
+"""Build frozen Supplementary Tables S1(A-B)-S7(A-B) plus source data.
 
-V3 compact-SI mode keeps only manuscript-facing supporting tables in Word-level
-form while preserving detailed audit rows as unnumbered machine-readable CSVs.
-No model is refit and no scientific result is changed by this module.
+The numbered CSV outputs mirror the current Supplementary Information table
+content, while detailed audit rows remain as unnumbered machine-readable
+Data_*.csv files. No model is refit and no scientific result is changed here.
 """
 from __future__ import annotations
 
@@ -22,6 +22,8 @@ from paper_utils import (
     ROOT,
     TARGET_COLUMNS,
     ResultIndex,
+    canonical_smiles,
+    murcko_scaffold,
     locate_task_file,
     normalise_ul94,
     numeric,
@@ -39,6 +41,23 @@ TASK_ORDER = [
     "LOI", "PHRR", "THR", "UL94_V0", "Tg", "Char_yield", "TS_MPa", "FS_MPa",
     "Delta_LOI", "Delta_PHRR", "Delta_THR", "Delta_CY",
 ]
+
+TASK_DISPLAY = {
+    "LOI": "LOI", "PHRR": "PHRR", "THR": "THR", "UL94_V0": "UL-94 V-0",
+    "Tg": "Tg", "Char_yield": "Char yield", "TS_MPa": "TS", "FS_MPa": "FS",
+    "Delta_LOI": "ΔLOI", "Delta_PHRR": "ΔPHRR", "Delta_THR": "ΔTHR", "Delta_CY": "ΔCY",
+}
+GROUP_DISPLAY = {
+    "MAIN_CO": "Main FR + synergist",
+    "MAIN_CO_CURING": "Main FR + synergist + curing agent",
+}
+FINAL_REFERENCE_COUNTS = {
+    "LOI": 130, "PHRR": 116, "THR": 113, "UL94_V0": 130, "Tg": 90, "TS_MPa": 66,
+}
+EXTERNAL_REFERENCE_MAP = {
+    "MFD": "[43]", "MBFAP": "[44]", "SPDO": "[45]",
+    "VH-DOPO": "[46]", "VPAA-DOPO": "[47]", "DMM": "[48]",
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -127,7 +146,7 @@ def _description(column: str) -> str:
         "UL94": "UL-94 vertical burning class",
         "PHRR_kw_㎡": "Peak heat-release rate",
         "THR_MJ_㎡": "Total heat release",
-        "Tg_℃": "Glass-transition temperature, preferentially DMA according to database rules",
+        "Tg_℃": "Glass-transition temperature measured by dynamic mechanical analysis (DMA)",
         "Char_yield_％_700C": "Char yield at 700 °C",
         "TS_MPa": "Tensile strength",
         "FS_MPa": "Flexural strength",
@@ -642,23 +661,86 @@ def table_s1_compact(df: pd.DataFrame) -> pd.DataFrame:
     return out.sort_values("field_order").reset_index(drop=True)
 
 
-def table_s2a_configurations(config_path: Path, df: pd.DataFrame) -> pd.DataFrame:
-    cfg = table_s2(config_path, df).copy()
-    cols = [c for c in [
-        "task", "task_type", "frozen_view", "frozen_k", "group_rule", "valid_target_n", "main_with_BDE"
-    ] if c in cfg.columns]
-    out = cfg[cols].copy()
-    if "frozen_k" in out.columns:
-        out["frozen_k"] = out["frozen_k"].where(out["frozen_k"].notna(), "ALL")
-    out["primary_metric"] = out["task"].map(lambda x: "Macro-F1" if x == "UL94_V0" else "R²")
+def table_s1a_dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
+    """Manuscript/SI Table S1(A): task size, structural coverage, and targets."""
+    rows = []
+    targets = {
+        "LOI": "LOI", "PHRR": "PHRR_kw_㎡", "THR": "THR_MJ_㎡",
+        "UL94_V0": "UL94", "Tg": "Tg_℃", "TS_MPa": "TS_MPa",
+    }
+    for task in ["LOI", "PHRR", "THR", "UL94_V0", "Tg", "TS_MPa"]:
+        col = targets[task]
+        if col not in df.columns:
+            continue
+        if task == "UL94_V0":
+            y = normalise_ul94(df[col])
+            valid = y.notna()
+            counts = y[valid].astype(int).value_counts().to_dict()
+            summary = f"V-0={counts.get(1, 0)}; non-V-0={counts.get(0, 0)}"
+            task_type = "Binary classification"
+        else:
+            values = numeric(df[col])
+            valid = values.notna()
+            v = values[valid]
+            summary = f"{v.min():.2f}–{v.max():.2f}; median={v.median():.2f}"
+            task_type = "Regression"
+        sub = df.loc[valid].copy()
+        main = sub.get("SMILES_main", pd.Series(index=sub.index, dtype=object)).map(canonical_smiles)
+        co = sub.get("SMILES_co", pd.Series(index=sub.index, dtype=object)).map(canonical_smiles).fillna("NONE")
+        pairs = (main.fillna("INVALID") + "||" + co).nunique()
+        scaffolds = main.dropna().map(murcko_scaffold).dropna().nunique()
+        rows.append({
+            "Task": TASK_DISPLAY[task].replace(" V-0", ""),
+            "Task type": task_type,
+            "Valid records (n)": int(valid.sum()),
+            "Unique main FRs": int(main.dropna().nunique()),
+            "Unique main FR/synergist combinations": int(pairs),
+            "Unique Murcko scaffolds": int(scaffolds),
+            "References (n)": FINAL_REFERENCE_COUNTS[task],
+            "Target range / median": summary,
+        })
+    return pd.DataFrame(rows)
+
+
+def table_s1b_database_fields(df: pd.DataFrame) -> pd.DataFrame:
+    """Manuscript/SI Table S1(B), limited to the 43 paper-facing database fields."""
+    out = table_s1_compact(df).copy()
+    out = out.rename(columns={
+        "field_order": "No.", "field": "Database field", "description": "Description",
+        "unit_or_encoding": "Unit/encoding", "pandas_dtype": "Data type",
+        "non_missing_n": "non missing n", "missing_n": "missing n",
+        "missing_rate_percent": "missing rate", "unique_non_missing": "unique non missing",
+    })
     return out
 
+def table_s2a_configurations(config_path: Path, df: pd.DataFrame) -> pd.DataFrame:
+    cfg = table_s2(config_path, df).copy()
+    cfg = cfg[cfg["task"].astype(str).isin(TASK_ORDER)].copy()
+    out = pd.DataFrame({
+        "Task": cfg["task"].map(TASK_DISPLAY),
+        "Task type": cfg.get("task_type", "").astype(str).str.lower(),
+        "Frozen view": cfg.get("frozen_view", "").astype(str).str.replace("_", " ", regex=False),
+        "K": cfg.get("frozen_k", np.nan),
+        "group rule": cfg.get("group_rule", "").map(GROUP_DISPLAY).fillna(cfg.get("group_rule", "")),
+        "Formal n": pd.to_numeric(cfg.get("valid_target_n", np.nan), errors="coerce").astype("Int64"),
+        "main metric": cfg["task"].map(lambda x: "Macro-F1" if x == "UL94_V0" else "R²"),
+    })
+    out["K"] = out["K"].where(out["K"].notna(), "all").replace({"ALL": "all", "All": "all"})
+    return out.reset_index(drop=True)
 
 def table_s2b_model_space() -> pd.DataFrame:
     full = table_s3().copy()
-    cols = [c for c in ["task_type", "model", "implementation", "frozen_parameters", "selection_level"] if c in full]
-    return full[cols]
-
+    cols = [c for c in ["task_type", "model", "implementation", "frozen_parameters"] if c in full]
+    out = full[cols].copy()
+    out = out.rename(columns={
+        "task_type": "Task type", "model": "Model", "implementation": "Implementation",
+        "frozen_parameters": "Fixed settings",
+    })
+    out["Task type"] = out["Task type"].astype(str).str.lower()
+    out["Fixed settings"] = (out["Fixed settings"].fillna("").astype(str)
+        .str.replace("_", " ", regex=False)
+        .replace("", "—"))
+    return out.reset_index(drop=True)
 
 def _canonical_metric_row_priority(frame: pd.DataFrame) -> pd.Series:
     src = frame.get("source_file", pd.Series("", index=frame.index)).astype(str).str.replace("\\", "/").str.lower()
@@ -669,6 +751,20 @@ def _canonical_metric_row_priority(frame: pd.DataFrame) -> pd.Series:
     score += src.str.contains("/scientific_validation/final_delta_fixed_5x5/", regex=False) * 100
     score -= src.str.contains("conditions_only|molecular_only|smoke|2x2", regex=True) * 500
     return score
+
+
+def _format_model_frequency(value: object) -> str:
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return ""
+    text = str(value).strip().replace("；", ";").replace("（", "(").replace("）", ")")
+    try:
+        parsed = json.loads(text)
+        if isinstance(parsed, list):
+            return "; ".join(f"{name}({int(count)})" for name, count in parsed)
+    except Exception:
+        pass
+    text = re.sub(r"\s*;\s*", "; ", text)
+    return text
 
 
 def table_s3_compact_validation(index: ResultIndex) -> pd.DataFrame:
@@ -687,27 +783,36 @@ def table_s3_compact_validation(index: ResultIndex) -> pd.DataFrame:
     if "feature_scope" in g:
         g = g[~g["feature_scope"].astype(str).str.lower().isin(["conditions_only", "molecular_only"])]
     g = g.assign(_priority=_canonical_metric_row_priority(g))
-    task_order = {t: i for i, t in enumerate(TASK_ORDER)}
-    g["_task_order"] = g["task"].map(task_order)
+    order = {t: i for i, t in enumerate(TASK_ORDER)}
+    g["_task_order"] = g["task"].map(order)
     g = g.sort_values(["_task_order", "_priority"], ascending=[True, False], kind="stable").drop_duplicates("task", keep="first")
-    out = pd.DataFrame({
-        "task": g["task"],
-        "n": g.get("n_valid_formal_rows", np.nan),
-        "frozen_view": g.get("configured_current_view", ""),
-        "K": g.get("configured_current_k", np.nan),
-        "R2_mean": g.get("outer_R2_mean", np.nan),
-        "R2_std": g.get("outer_R2_std", np.nan),
-        "RMSE_mean": g.get("outer_RMSE_mean", np.nan),
-        "MAE_mean": g.get("outer_MAE_mean", np.nan),
-        "Macro_F1_mean": g.get("outer_Macro_F1_mean", np.nan),
-        "Accuracy_mean": g.get("outer_Accuracy_mean", np.nan),
-        "Balanced_Accuracy_mean": g.get("outer_Balanced_Accuracy_mean", np.nan),
-        "ROC_AUC_mean": g.get("outer_ROC_AUC_mean", np.nan),
-        "selected_model_frequency": g.get("selected_model_frequency", ""),
-    })
-    out["K"] = out["K"].where(out["K"].notna(), "ALL")
-    return out.reset_index(drop=True)
 
+    rows = []
+    for _, r in g.iterrows():
+        task = str(r["task"])
+        is_cls = task == "UL94_V0"
+        n = pd.to_numeric(pd.Series([r.get("n_valid_formal_rows")]), errors="coerce").iloc[0]
+        if pd.isna(n):
+            # fallback to frozen SI counts
+            n = {"LOI":599,"PHRR":406,"THR":397,"UL94_V0":599,"Tg":357,"Char_yield":196,"TS_MPa":256,"FS_MPa":228,"Delta_LOI":468,"Delta_PHRR":289,"Delta_THR":283,"Delta_CY":148}.get(task, np.nan)
+        k = r.get("configured_current_k", np.nan)
+        k = "ALL" if pd.isna(k) else int(float(k))
+        rows.append({
+            "Task": TASK_DISPLAY.get(task, task),
+            "n": int(n) if pd.notna(n) else "",
+            "Frozen view": str(r.get("configured_current_view", "")).replace("_", " "),
+            "Frozen K": k,
+            "R²": "--" if is_cls else (f"{float(r.get('outer_R2_mean')):.3f}" if pd.notna(r.get('outer_R2_mean')) else "--"),
+            "SD": "--" if is_cls else (f"{float(r.get('outer_R2_std')):.3f}" if pd.notna(r.get('outer_R2_std')) else "--"),
+            "RMSE": "--" if is_cls else (f"{float(r.get('outer_RMSE_mean')):.3f}" if pd.notna(r.get('outer_RMSE_mean')) else "--"),
+            "MAE": "--" if is_cls else (f"{float(r.get('outer_MAE_mean')):.3f}" if pd.notna(r.get('outer_MAE_mean')) else "--"),
+            "Macro-F1": f"{float(r.get('outer_Macro_F1_mean')):.3f}" if is_cls and pd.notna(r.get('outer_Macro_F1_mean')) else "--",
+            "Accuracy": f"{float(r.get('outer_Accuracy_mean')):.3f}" if is_cls and pd.notna(r.get('outer_Accuracy_mean')) else "--",
+            "Balanced accuracy": f"{float(r.get('outer_Balanced_Accuracy_mean')):.3f}" if is_cls and pd.notna(r.get('outer_Balanced_Accuracy_mean')) else "--",
+            "ROC-AUC": f"{float(r.get('outer_ROC_AUC_mean')):.3f}" if is_cls and pd.notna(r.get('outer_ROC_AUC_mean')) else "--",
+            "Selected model (fold count)": _format_model_frequency(r.get("selected_model_frequency", "")),
+        })
+    return pd.DataFrame(rows)
 
 def _normalise_bond_type(series: pd.Series) -> pd.Series:
     return (series.astype(str).str.strip().str.upper()
@@ -733,17 +838,16 @@ def table_s4_bde_summary(index: ResultIndex) -> pd.DataFrame:
         d = full[full["_bond"].eq(bond)].copy()
         err = numeric(d[err_col]).dropna() if err_col else pd.Series(dtype=float)
         rows.append({
-            "Bond_Type": bond,
-            "prediction_rows": int(len(d)),
-            "unique_samples": int(d[id_col].nunique(dropna=True)) if id_col else np.nan,
-            "mean_true_kJ_mol": float(numeric(d[true_col]).mean()) if true_col else np.nan,
-            "mean_pred_kJ_mol": float(numeric(d[pred_col]).mean()) if pred_col else np.nan,
-            "mean_abs_error_kJ_mol": float(err.mean()) if len(err) else np.nan,
-            "median_abs_error_kJ_mol": float(err.median()) if len(err) else np.nan,
-            "p95_abs_error_kJ_mol": float(err.quantile(.95)) if len(err) else np.nan,
+            "Bond type": bond,
+            "Prediction rows": int(len(d)),
+            "Unique samples": int(d[id_col].nunique(dropna=True)) if id_col else np.nan,
+            "Mean observed BDE (kJ mol^-1)": round(float(numeric(d[true_col]).mean()), 3) if true_col else np.nan,
+            "Mean predicted BDE (kJ mol^-1)": round(float(numeric(d[pred_col]).mean()), 3) if pred_col else np.nan,
+            "MAE (kJ mol^-1)": round(float(err.mean()), 3) if len(err) else np.nan,
+            "Median AE (kJ mol^-1)": round(float(err.median()), 3) if len(err) else np.nan,
+            "95th-percentile AE (kJ mol^-1)": round(float(err.quantile(.95)), 3) if len(err) else np.nan,
         })
     return pd.DataFrame(rows)
-
 
 def table_s5_compact_shap(index: ResultIndex) -> pd.DataFrame:
     full = table_s7(index).copy()
@@ -757,21 +861,25 @@ def table_s5_compact_shap(index: ResultIndex) -> pd.DataFrame:
             continue
         level_rank = d.get("stability_level", pd.Series("Medium", index=d.index)).map({"High": 0, "Medium": 1}).fillna(2)
         d = d.assign(_level_rank=level_rank)
-        sort_cols = ["_level_rank"]
-        ascending = [True]
+        sort_cols, ascending = ["_level_rank"], [True]
         if "mean_abs_shap_all_folds" in d:
             sort_cols.append("mean_abs_shap_all_folds"); ascending.append(False)
         d = d.sort_values(sort_cols, ascending=ascending, kind="stable").head(n)
         blocks.append(d)
     if not blocks:
         return pd.DataFrame()
-    out = pd.concat(blocks, ignore_index=True, sort=False)
-    cols = [c for c in [
-        "task", "feature", "feature_group", "mean_abs_shap_all_folds", "top20_frequency",
-        "direction_consistency", "mean_rank_all_folds", "stability_level"
-    ] if c in out.columns]
-    return out[cols]
-
+    d = pd.concat(blocks, ignore_index=True, sort=False)
+    out = pd.DataFrame({
+        "Task": d["task"].map(TASK_DISPLAY).fillna(d["task"]),
+        "Feature": d.get("feature", ""),
+        "Feature group": d.get("feature_group", ""),
+        "Mean |SHAP|": pd.to_numeric(d.get("mean_abs_shap_all_folds", np.nan), errors="coerce").round(3),
+        "Top-20 frequency": pd.to_numeric(d.get("top20_frequency", np.nan), errors="coerce").round(3),
+        "Direction consistency": pd.to_numeric(d.get("direction_consistency", np.nan), errors="coerce").round(3),
+        "Mean rank": pd.to_numeric(d.get("mean_rank_all_folds", np.nan), errors="coerce").round(1),
+        "Stability": d.get("stability_level", ""),
+    })
+    return out
 
 def _count_unique_candidates(frame: pd.DataFrame) -> int:
     if frame.empty:
@@ -784,71 +892,109 @@ def table_s6a_screening_summary(index: ResultIndex) -> pd.DataFrame:
     all_pred = table_s9(index)
     formal_n = _count_unique_candidates(all_pred)
     if formal_n == 0:
-        # Fallback for compact/result-only packages where the full
-        # all-formulations file is absent but best-per-molecule output exists.
         p_formal = index.locate(
-            "candidate_best_per_molecule.csv",
-            prefer=["06_reversedesign", "combined_flux50"],
+            "candidate_best_per_molecule.csv", prefer=["06_reversedesign", "combined_flux50"],
             avoid=["final_flux50", "sensitivity_flux35", "smoke", "2x2", "designed_only"],
-            optional=True,
-            label="compact SI formal screening pool",
+            optional=True, label="compact SI formal screening pool",
         )
         if p_formal:
             formal_n = _count_unique_candidates(read_csv_auto(p_formal))
     stability_path = index.locate(
-        "flux35_50_rank_stability_combined.csv",
-        prefer=["06_reversedesign", "final_priority_combined"], avoid=["smoke", "2x2"], optional=True,
-        label="compact SI screening stability",
+        "flux35_50_rank_stability_combined.csv", prefer=["06_reversedesign", "final_priority_combined"],
+        avoid=["smoke", "2x2"], optional=True, label="compact SI screening stability",
     )
     stability = read_csv_auto(stability_path) if stability_path else pd.DataFrame()
     eligible_both = _count_unique_candidates(stability)
 
     def _best(flux_token: str) -> pd.DataFrame:
         p = index.locate(
-            "candidate_best_per_molecule.csv",
-            prefer=["06_reversedesign", flux_token],
+            "candidate_best_per_molecule.csv", prefer=["06_reversedesign", flux_token],
             avoid=["smoke", "2x2", "designed_only"], optional=True,
             label=f"compact SI {flux_token} best-per-molecule",
         )
         return read_csv_auto(p) if p else pd.DataFrame()
 
-    f50 = _best("combined_flux50")
-    f35 = _best("sensitivity_flux35")
+    f50, f35 = _best("combined_flux50"), _best("sensitivity_flux35")
     pareto50 = int(numeric(f50["pareto_flag"]).fillna(0).astype(bool).sum()) if "pareto_flag" in f50 else np.nan
     pareto35 = int(numeric(f35["pareto_flag"]).fillna(0).astype(bool).sum()) if "pareto_flag" in f35 else np.nan
     common_pareto = int(stability["Pareto_both"].fillna(False).astype(bool).sum()) if "Pareto_both" in stability else np.nan
-    final = table_s11(index)
-    final_n = _count_unique_candidates(final)
-    rows = [
+    final_n = _count_unique_candidates(table_s11(index))
+    return pd.DataFrame([
         ("Formal screening candidates", formal_n),
         ("Eligible in both heat-flux scenarios", eligible_both),
         ("Pareto-optimal at 50 kW m^-2", pareto50),
         ("Pareto-optimal at 35 kW m^-2", pareto35),
         ("Common cross-scenario Pareto candidates", common_pareto),
         ("Final priority candidates", final_n),
-    ]
-    return pd.DataFrame(rows, columns=["screening_stage", "candidate_count"])
-
+    ], columns=["Screening stage", "Candidates (n)"])
 
 def table_s6b_final_candidates(index: ResultIndex) -> pd.DataFrame:
-    out = table_s11(index).copy()
-    if "source_file" in out:
-        out = out.drop(columns=["source_file"])
-    return out
-
+    d = table_s11(index).copy()
+    if d.empty:
+        return d
+    out = pd.DataFrame({
+        "Rank": d.get("Final_priority_rank", np.nan),
+        "Candidate ID": d.get("Candidate_ID", ""),
+        "Candidate name": d.get("Candidate_Name", ""),
+        "Design family": d.get("Design_Family", ""),
+        "Loading (wt%)": d.get("Loading_total_FR wt%_50", np.nan),
+        "Pred. LOI (%)": d.get("LOI_pred_50", np.nan),
+        "Pred. PHRR (kW m^-2)": d.get("PHRR_pred_50", np.nan),
+        "Pred. THR (MJ m^-2)": d.get("THR_pred_50", np.nan),
+        "Pred. V-0 probability": d.get("V0_probability_50", np.nan),
+        "Pred. Tg (°C)": d.get("Tg_pred_50", np.nan),
+        "Pred. TS (MPa)": d.get("TS_pred_50", np.nan),
+        "Smax": d.get("max_similarity_50", np.nan),
+    })
+    out["Rank"] = pd.to_numeric(out["Rank"], errors="coerce").astype("Int64")
+    for col in ["Loading (wt%)", "Pred. LOI (%)", "Pred. PHRR (kW m^-2)", "Pred. THR (MJ m^-2)", "Pred. Tg (°C)", "Pred. TS (MPa)", "Smax"]:
+        out[col] = pd.to_numeric(out[col], errors="coerce").round(3)
+    out["Pred. V-0 probability"] = pd.to_numeric(out["Pred. V-0 probability"], errors="coerce").round(3)
+    return out.sort_values("Rank", kind="stable").reset_index(drop=True)
 
 def table_s7a_external_performance(index: ResultIndex) -> pd.DataFrame:
-    out = table_s12_external_validation(index).copy()
-    if "source_file" in out:
-        out = out.drop(columns=["source_file"])
-    return out
-
+    d = table_s12_external_validation(index).copy()
+    if d.empty:
+        return d
+    d = d[d["task"].astype(str).isin(["LOI", "PHRR", "THR", "UL94_V0", "TS_MPa"])].copy()
+    order = {"LOI":0,"PHRR":1,"THR":2,"UL94_V0":3,"TS_MPa":4}
+    d["_order"] = d["task"].map(order)
+    d = d.sort_values("_order", kind="stable")
+    out = pd.DataFrame({
+        "Task": d["task"].map(TASK_DISPLAY),
+        "Task type": d["task_type"],
+        "n": d["n"],
+        "MAE": d["MAE"], "RMSE": d["RMSE"], "R²": d["R2"],
+        "Spearman ρ": d["Spearman_rho"], "PICP": d["PICP"],
+        "Accuracy": d["Accuracy"], "Balanced accuracy": d["Balanced_accuracy"],
+        "Macro-F1": d["Macro_F1"], "ROC-AUC": d["ROC_AUC"],
+    })
+    for c in ["MAE","RMSE","R²","Spearman ρ","PICP","Accuracy","Balanced accuracy","Macro-F1","ROC-AUC"]:
+        vals = pd.to_numeric(out[c], errors="coerce")
+        out[c] = vals.map(lambda x: "--" if pd.isna(x) else f"{x:.3f}")
+    return out.reset_index(drop=True)
 
 def table_s7b_external_structure(index: ResultIndex) -> pd.DataFrame:
-    out = table_s13_external_structure_audit(index).copy()
-    if "source_file" in out:
-        out = out.drop(columns=["source_file"])
-    return out
+    d = table_s13_external_structure_audit(index).copy()
+    if d.empty:
+        return d
+    name_col = next((c for c in ["FR_main", "External_FR", "External FR"] if c in d.columns), None)
+    if name_col is None:
+        return pd.DataFrame()
+    out = pd.DataFrame({
+        "External FR": d[name_col],
+        "Molecular formula": d.get("Molecular_formula", d.get("Molecular formula", "")),
+        "Exact training match": d.get("V4_exact_canonical_match", d.get("Exact training match", "")),
+        "Scaffold seen": d.get("V4_scaffold_seen", d.get("Scaffold seen", "")),
+        "Smax": pd.to_numeric(d.get("Max_Tanimoto_to_V4", d.get("Smax", np.nan)), errors="coerce").round(3),
+        "Nearest FR": d.get("Nearest_V4_FR", d.get("Nearest FR", "")),
+        "AD zone": d.get("AD_category", d.get("AD zone", "")).astype(str).str.strip().str.lower().map({"in-domain": "In-domain", "caution": "Caution", "extrapolation": "Extrapolation"}).fillna(d.get("AD_category", d.get("AD zone", ""))),
+        "Identity audit level": d.get("External_identity_level", d.get("Identity audit level", "")),
+    })
+    out["Reference"] = out["External FR"].map(EXTERNAL_REFERENCE_MAP).fillna("")
+    order = {k:i for i,k in enumerate(EXTERNAL_REFERENCE_MAP)}
+    out["_order"] = out["External FR"].map(order).fillna(999)
+    return out.sort_values("_order", kind="stable").drop(columns="_order").reset_index(drop=True)
 
 def _save(frame: pd.DataFrame, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -859,8 +1005,9 @@ def main() -> None:
     args = parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
-    # Remove old numbered/full-SI table files so S1-S7 is the only visible numbered set.
-    for pattern in ["TableS*.csv", "Data_*.csv", "Table_main_*.csv", "paper_table_manifest.csv", "selected_input_files.csv", "run_config.json"]:
+    # Remove legacy numbered/full-SI outputs so the visible numbered set is
+    # exactly S1(A-B) through S7(A-B), matching the frozen SI manuscript.
+    for pattern in ["TableS*.csv", "Table S*.csv", "Data_*.csv", "Table_main_*.csv", "paper_table_manifest.csv", "selected_input_files.csv", "run_config.json"]:
         for old in args.output.glob(pattern):
             try:
                 old.unlink()
@@ -871,12 +1018,11 @@ def main() -> None:
     index = ResultIndex(args.results_root)
     manifest: list[dict[str, object]] = []
 
-    # Detailed machine-readable data are intentionally unnumbered.
     machine_jobs = [
-        ("Data_full_database_dictionary.csv", lambda: table_s1(df), "complete 98-column database dictionary"),
+        ("Data_full_database_dictionary.csv", lambda: table_s1(df), "complete database dictionary"),
         ("Data_outer_fold_model_selection.csv", lambda: table_s4(index), "complete fold-level model selections"),
         ("Data_complete_5x5_metrics.csv", lambda: table_s5(index), "complete nested-validation summaries"),
-        ("Data_all_BDE_prediction_errors.csv", lambda: table_s6(index), "all repeated-CV BDE prediction rows"),
+        ("Data_all_BDE_prediction_errors.csv", lambda: table_s6(index), "complete repeated-OOF BDE prediction rows"),
         ("Data_all_stable_SHAP_features.csv", lambda: table_s7(index), "all High/Medium stable SHAP features"),
         ("Data_outer_test_error_cases.csv", lambda: table_s8(index, args.top_errors), "representative outer-test error rows"),
         ("Data_all_candidate_predictions.csv", lambda: table_s9(index), "all 50 kW m^-2 formulation predictions"),
@@ -893,16 +1039,17 @@ def main() -> None:
             print(f"[WARN] DATA: {filename}: {type(exc).__name__}: {exc}")
 
     jobs = [
-        ("S1", "TableS1_compact_database_dictionary.csv", lambda: table_s1_compact(df), "compact database dictionary; full schema in Data_full_database_dictionary.csv"),
-        ("S2A", "TableS2A_frozen_task_configurations.csv", lambda: table_s2a_configurations(args.task_config, df), "Panel A: task-specific frozen configurations"),
-        ("S2B", "TableS2B_candidate_model_space.csv", table_s2b_model_space, "Panel B: candidate models and preprocessing"),
-        ("S3", "TableS3_strict_5x5_validation_performance.csv", lambda: table_s3_compact_validation(index), "compact formal 5x5 performance summary"),
-        ("S4", "TableS4_BDE_PC_PN_summary.csv", lambda: table_s4_bde_summary(index), "formal P-C/P-N BDE summary; row-level data in Data_all_BDE_prediction_errors.csv"),
-        ("S5", "TableS5_stable_SHAP_features_compact.csv", lambda: table_s5_compact_shap(index), "compact stable SHAP features; full list in Data_all_stable_SHAP_features.csv"),
-        ("S6A", "TableS6A_screening_summary.csv", lambda: table_s6a_screening_summary(index), "Panel A: screening counts across both heat-flux scenarios"),
-        ("S6B", "TableS6B_final_20_priority_candidates.csv", lambda: table_s6b_final_candidates(index), "Panel B: final 20 cross-flux priority candidates"),
-        ("S7A", "TableS7A_external_validation_performance.csv", lambda: table_s7a_external_performance(index), "Panel A: independent external-validation performance"),
-        ("S7B", "TableS7B_external_structure_AD_audit.csv", lambda: table_s7b_external_structure(index), "Panel B: external structure/applicability-domain audit"),
+        ("S1A", "TableS1A_dataset_size_structural_coverage_and_target_distributions.csv", lambda: table_s1a_dataset_overview(df), "Dataset size, structural coverage, and target distributions"),
+        ("S1B", "TableS1B_database_variables_and_raw_field_availability.csv", lambda: table_s1b_database_fields(df), "Database variables and raw-field availability"),
+        ("S2A", "TableS2A_frozen_task_configurations.csv", lambda: table_s2a_configurations(args.task_config, df), "Frozen task-specific configurations"),
+        ("S2B", "TableS2B_candidate_model_space.csv", table_s2b_model_space, "Candidate models and preprocessing"),
+        ("S3", "TableS3_strict_5x5_validation_performance.csv", lambda: table_s3_compact_validation(index), "Strict 5x5 grouped nested-validation performance"),
+        ("S4", "TableS4_BDE_PC_PN_summary.csv", lambda: table_s4_bde_summary(index), "P-C/P-N BDE summary; complete 1,195-row table in Data_all_BDE_prediction_errors.csv"),
+        ("S5", "TableS5_stable_SHAP_features_compact.csv", lambda: table_s5_compact_shap(index), "Stable SHAP features (High/Medium)"),
+        ("S6A", "TableS6A_screening_summary.csv", lambda: table_s6a_screening_summary(index), "Screening-stage summary"),
+        ("S6B", "TableS6B_final_19_priority_candidates.csv", lambda: table_s6b_final_candidates(index), "Final 19 cross-flux priority candidates"),
+        ("S7A", "TableS7A_external_validation_performance.csv", lambda: table_s7a_external_performance(index), "Independent external-validation performance"),
+        ("S7B", "TableS7B_external_structure_AD_audit.csv", lambda: table_s7b_external_structure(index), "External structure/applicability-domain audit; manuscript references [43]-[48]"),
     ]
 
     for table, filename, factory, note in jobs:
@@ -922,7 +1069,8 @@ def main() -> None:
     pd.DataFrame(manifest).to_csv(args.output / "paper_table_manifest.csv", index=False, encoding="utf-8-sig")
     index.save_manifest(args.output / "selected_input_files.csv")
     write_json(args.output / "run_config.json", vars(args))
-    print(f"\n[DONE] Compact SI paper tables S1-S7: {args.output}")
+    print(f"\n[DONE] Frozen Supplementary Tables S1(A-B)-S7(A-B): {args.output}")
+
 
 
 if __name__ == "__main__":

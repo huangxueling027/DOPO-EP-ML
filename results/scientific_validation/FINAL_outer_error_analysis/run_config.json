@@ -1,0 +1,9 @@
+{
+  "results_root": "results\\scientific_validation\\FINAL_core_fixed_baseline_inclusive_5x5",
+  "tasks": "LOI,PHRR,THR,UL94_V0",
+  "split_strategy": "molecule",
+  "screening_mode": "formulation",
+  "bde_mode": "without_BDE",
+  "top_n": 20,
+  "output": "results\\scientific_validation\\FINAL_outer_error_analysis"
+}

@@ -1,14 +1,12 @@
-﻿item,status,error
-S1,manual,Use the real literature-search log; initial counts must not be estimated.
-S2,generated,
-S3,generated,
-S4,generated,
-S5,generated,
-S6,generated,
-S7,generated,
-S8,generated,
-S9,generated,
-S10,generated,
-S11,generated,
-S12,generated,
-S13,generated,
+﻿item,caption,status,error
+S1,Verified literature inclusion and data-extraction workflow.,manual,Use the real literature-search log; initial counts must not be estimated.
+S2,Dataset completeness and target distributions.,generated,
+S3,Chemical-space and scaffold diversity of the DOPO/EP dataset.,generated,
+S4,Frozen task-specific configurations and model-selection frequencies across the FINAL outer folds.,generated,
+S5,Dummy baselines and Y-scrambling null tests.,generated,
+S6,Learning curves as a function of independent training-group size.,generated,
+S7,Formal P-C/P-N BDE dataset composition and prediction diagnostics.,generated,
+S8,SHAP beeswarm plots for the core prediction tasks.,generated,
+S9,Cross-fold stability of SHAP feature rankings for the core prediction tasks.,generated,
+S10,Supplementary applicability-domain diagnostics for the core prediction tasks.,generated,
+S11,Candidate-screening funnel from the formal screening library to the final cross-scenario priority set.,generated,

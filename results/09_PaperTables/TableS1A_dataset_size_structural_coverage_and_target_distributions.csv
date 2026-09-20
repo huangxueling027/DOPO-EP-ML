@@ -1,0 +1,7 @@
+﻿Task,Task type,Valid records (n),Unique main FRs,Unique main FR/synergist combinations,Unique Murcko scaffolds,References (n),Target range / median
+LOI,Regression,599,138,143,117,130,18.10–49.50; median=31.00
+PHRR,Regression,406,124,127,107,116,215.87–2491.00; median=869.10
+THR,Regression,397,120,123,104,113,34.80–227.40; median=76.50
+UL-94,Binary classification,599,138,143,117,130,V-0=261; non-V-0=338
+Tg,Regression,357,96,97,84,90,55.90–255.30; median=160.00
+TS,Regression,256,65,68,57,66,16.30–108.00; median=67.27

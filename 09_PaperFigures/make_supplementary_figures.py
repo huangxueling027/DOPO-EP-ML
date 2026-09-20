@@ -4,7 +4,7 @@
 This compact mode keeps the analyses needed to support the manuscript but
 reduces redundancy in the Supplementary Information. S1 remains a manual
 literature-screening flowchart. The code-generated SI figures are streamlined
-to S2-S13 by merging or removing lower-priority panels.
+to S2-S11 so that repository outputs match the frozen Supplementary Information exactly.
 """
 from __future__ import annotations
 
@@ -225,75 +225,68 @@ def _development_candidates(index: ResultIndex, task: str) -> pd.DataFrame:
     return pd.concat(blocks,ignore_index=True,sort=False) if blocks else pd.DataFrame()
 
 
-def fig_s7_development_configs(index: ResultIndex, out: Path) -> None:
-    """Summarise the frozen task-specific configurations without rerunning scans.
+def fig_s4_frozen_configs(index: ResultIndex, out: Path) -> None:
+    """Final S4: frozen task configurations and model-selection frequencies.
 
-    If historical five-seed development model-comparison CSVs are present they
-    are used. Otherwise, the figure falls back to the frozen view/K together
-    with the model-selection frequency across the five FINAL outer folds. This
-    preserves the development-stage provenance of view/K while avoiding a new
-    post-hoc K/view search.
+    This figure intentionally reads only the five FINAL outer-fold metric files.
+    It does not fall back to historical development-stage view/K scans, because
+    the frozen Supplementary Information caption refers specifically to model
+    selection frequencies across the FINAL outer folds.
     """
-    tasks=["LOI","PHRR","THR","UL94_V0","Tg","TS_MPa"]
-    config=json.loads((ROOT/"config"/"task_config.json").read_text(encoding="utf-8"))["tasks"]
-    fig,axes=plt.subplots(2,3,figsize=(14.5,8.2)); all_rows=[]; used_historical=False
-    for ax,task in zip(axes.ravel(),tasks):
-        frame=_development_candidates(index,task)
-        view=str(config.get(task,{}).get("view","")); kval=str(config.get(task,{}).get("k","all"))
-        metric="test_Macro_F1" if task=="UL94_V0" else "test_R2"
-        model_col=next((c for c in ["model","model_name"] if c in frame.columns),None) if not frame.empty else None
-        if not frame.empty and metric in frame.columns and model_col:
-            used_historical=True
-            frame[metric]=numeric(frame[metric])
-            summary=(frame.dropna(subset=[metric]).groupby(model_col,as_index=False)
-                     .agg(mean_score=(metric,"mean"),std_score=(metric,"std"),n_seeds=(metric,"count")))
-            summary["std_score"]=summary.std_score.fillna(0)
-            summary=summary.sort_values("mean_score",ascending=False).head(12).reset_index(drop=True)
-            y=np.arange(len(summary))
-            ax.errorbar(summary.mean_score,y,xerr=summary.std_score,fmt="o",color=task_color(task),markerfacecolor="white",markeredgewidth=.9,capsize=3)
-            ax.set_yticks(y,summary[model_col].astype(str)); ax.invert_yaxis()
-            ax.set_xlabel("Mean test Macro-F1" if task=="UL94_V0" else "Mean test $R^2$")
-            ax.set_title(f"{task_label(task)}  |  view={view}, K={kval}",fontsize=9)
-            ax.axvline(0,ls="--",lw=.8,color=PALETTE['gray']) if task!="UL94_V0" else None
-            clean_axes(ax,grid="x")
-            for rank,row in summary.iterrows():
-                all_rows.append({"task":task,"rank":rank+1,"model":row[model_col],"view":view,"K":kval,
-                                 "metric":metric,"mean":row.mean_score,"std":row.std_score,
-                                 "n_repeats":int(row.n_seeds),"source_type":"historical_five_seed_development"})
+    tasks = ["LOI", "PHRR", "THR", "UL94_V0", "Tg", "TS_MPa"]
+    config = json.loads((ROOT / "config" / "task_config.json").read_text(encoding="utf-8"))["tasks"]
+    fig, axes = plt.subplots(2, 3, figsize=(14.5, 8.2))
+    rows = []
+
+    for ax, task in zip(axes.ravel(), tasks):
+        metrics_path = locate_task_file(index, task, "outer_fold_metrics", use_bde=False, optional=True)
+        if not metrics_path:
+            add_no_data(ax, f"Missing FINAL fold metrics for {task}")
             continue
 
-        # Safe fallback: report frozen view/K and how often each model was selected
-        # by grouped inner CV across the five FINAL outer-training folds.
-        metrics_path=locate_task_file(index,task,"outer_fold_metrics",use_bde=False,optional=True)
-        if not metrics_path:
-            add_no_data(ax,f"Missing FINAL fold metrics for {task}")
-            continue
-        folds=read_csv_auto(metrics_path)
-        selected_col=next((c for c in ["selected_model","model_name","model"] if c in folds.columns),None)
+        folds = read_csv_auto(metrics_path)
+        selected_col = next((c for c in ["selected_model", "model_name", "model"] if c in folds.columns), None)
         if not selected_col:
-            add_no_data(ax,"Selected-model column not recognised")
+            add_no_data(ax, "Selected-model column not recognised")
             continue
-        counts=folds[selected_col].astype(str).value_counts().head(12)
-        y=np.arange(len(counts))
-        ax.barh(y,counts.to_numpy(),color=task_color(task),alpha=.78)
-        ax.set_yticks(y,counts.index.astype(str)); ax.invert_yaxis(); ax.set_xlim(0,max(5,int(counts.max())))
-        ax.set_xlabel("Outer folds selected (n / 5)")
-        # Use the values recorded in FINAL fold metrics when available.
+
+        view = str(config.get(task, {}).get("view", ""))
+        kval = str(config.get(task, {}).get("k", "ALL"))
         if "selected_view" in folds and folds["selected_view"].notna().any():
-            view=str(folds["selected_view"].astype(str).mode().iloc[0])
+            view = str(folds["selected_view"].astype(str).mode().iloc[0])
         if "selected_requested_k" in folds and folds["selected_requested_k"].notna().any():
-            kval_raw=folds["selected_requested_k"].mode().iloc[0]
-            kval="ALL" if str(kval_raw).lower() in {"nan","none"} else str(kval_raw).replace(".0","")
-        ax.set_title(f"{task_label(task)}  |  frozen view={view}, K={kval}",fontsize=9)
-        clean_axes(ax,grid="x")
-        for rank,(model,count) in enumerate(counts.items(),start=1):
-            all_rows.append({"task":task,"rank":rank,"model":model,"view":view,"K":kval,
-                             "metric":"outer_fold_model_selection_frequency","mean":float(count),"std":0.0,
-                             "n_repeats":int(len(folds)),"source_type":"FINAL_outer_fold_model_selection_frequency"})
-    title = "Development-stage model comparison across five grouped-holdout seeds" if used_historical else "Frozen task-specific configurations and FINAL model-selection stability"
-    fig.suptitle(title,fontsize=11,y=1.01)
-    fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75); save_figure(fig,out/"FigS4_development_configuration_comparison")
-    pd.DataFrame(all_rows).to_csv(out/"FigS4_top_development_configurations.csv",index=False,encoding="utf-8-sig")
+            kval_raw = folds["selected_requested_k"].mode().iloc[0]
+            kval = "ALL" if str(kval_raw).lower() in {"nan", "none", "all"} else str(kval_raw).replace(".0", "")
+        elif str(kval).lower() == "all":
+            kval = "ALL"
+
+        counts = folds[selected_col].astype(str).value_counts()
+        y = np.arange(len(counts))
+        ax.barh(y, counts.to_numpy(), color=task_color(task), alpha=.80)
+        ax.set_yticks(y, counts.index.astype(str))
+        ax.invert_yaxis()
+        ax.set_xlim(0, 5.25)
+        ax.set_xticks(range(0, 6))
+        ax.set_xlabel("FINAL outer folds selected (n / 5)")
+        ax.set_title(f"{task_label(task)}  |  view={view}, K={kval}", fontsize=9)
+        clean_axes(ax, grid="x")
+
+        for rank, (model, count) in enumerate(counts.items(), start=1):
+            rows.append({
+                "task": task,
+                "rank": rank,
+                "selected_model": model,
+                "outer_fold_count": int(count),
+                "n_outer_folds": int(len(folds)),
+                "frozen_view": view,
+                "frozen_K": kval,
+                "source_file": str(metrics_path),
+            })
+
+    fig.suptitle("Frozen task-specific configurations and model-selection frequencies across the FINAL outer folds", fontsize=11, y=1.01)
+    fig.tight_layout(pad=.9, w_pad=.75, h_pad=.75)
+    save_figure(fig, out / "FigS4_frozen_task_specific_configurations_and_model_selection_frequencies")
+    pd.DataFrame(rows).to_csv(out / "FigS4_model_selection_frequencies.csv", index=False, encoding="utf-8-sig")
 
 
 def _all_fold_rows(index: ResultIndex) -> pd.DataFrame:
@@ -351,9 +344,17 @@ def fig_s9_split_folds(index:ResultIndex,out:Path)->None:
         ax.axhline(0,ls="--",lw=.8,color=PALETTE['gray']);ax.set_xticks(range(3),["Molecule","Scaffold","Reference"],rotation=30,ha="right");ax.set_ylabel("Macro-F1" if task=="UL94_V0" else "$R^2$");ax.set_title(task_label(task));clean_axes(ax,grid="y")
     fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75);save_figure(fig,out/"FigS9_three_split_outer_fold_results");data.to_csv(out/"FigS9_split_fold_data.csv",index=False,encoding="utf-8-sig")
 
-def fig_s10_null_tests(index:ResultIndex,out:Path)->None:
-    perm=index.locate("y_scrambling_all_results.csv",prefer=["null_tests"],optional=True);summ=index.locate("null_test_summary.csv",prefer=["null_tests"],optional=True)
-    if not perm or not summ:raise FileNotFoundError("Run run.py null-tests")
+def fig_s5_null_tests(index:ResultIndex,out:Path)->None:
+    # Prefer the manuscript-canonical FINAL diagnostics directory.  This keeps
+    # S5 tied to the current project rather than to copied/stale outputs from an
+    # older project version.  Fall back to indexed discovery only when needed.
+    final_dir = index.root / "scientific_validation" / "FINAL_null_tests"
+    perm0 = final_dir / "y_scrambling_all_results.csv"
+    summ0 = final_dir / "null_test_summary.csv"
+    perm = perm0 if perm0.exists() else index.locate("y_scrambling_all_results.csv",prefer=["FINAL_null_tests","null_tests"],optional=True)
+    summ = summ0 if summ0.exists() else index.locate("null_test_summary.csv",prefer=["FINAL_null_tests","null_tests"],optional=True)
+    if not perm or not summ:
+        raise FileNotFoundError("Missing results/scientific_validation/FINAL_null_tests outputs; run: D:/Anaconda/python.exe -u run.py null-tests")
     p=read_csv_auto(perm);s=read_csv_auto(summ);tasks=[t for t in ["LOI","PHRR","THR","UL94_V0"] if t in p.task.unique()]
     fig,axes=plt.subplots(1,len(tasks),figsize=(3.6*len(tasks),3.6),squeeze=False)
     for ax,task in zip(axes.ravel(),tasks):
@@ -367,12 +368,16 @@ def fig_s10_null_tests(index:ResultIndex,out:Path)->None:
             vals=numeric(sub[metric]).dropna()
         ax.hist(vals,bins="auto",color=PALETTE['gray_light'],edgecolor=PALETTE['slate'],linewidth=.5,alpha=.95);ax.axvline(row.observed_mean,color=task_color(task),lw=2,label="Observed");ax.axvline(row.null_95_percentile,color=PALETTE['red'],ls="--",label="Null 95th");ax.axvline(row.dummy_mean,color=PALETTE['gold'],ls=":",label="Dummy")
         ax.set_xlabel(metric.replace("_","-"));ax.set_ylabel("Count");ax.set_title(f"{task_label(task)}\np={row.empirical_p_value:.3g}");clean_axes(ax);ax.legend(frameon=False,fontsize=6.5)
-    fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75);save_figure(fig,out/"FigS6_dummy_and_y_scrambling")
+    fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75);save_figure(fig,out/"FigS5_dummy_and_y_scrambling")
 
 
-def fig_s11_learning_curves(index:ResultIndex,out:Path)->None:
-    path=index.locate("learning_curve_summary.csv",prefer=["learning_curves"],optional=True)
-    if not path:raise FileNotFoundError("Run run.py learning-curves")
+def fig_s6_learning_curves(index:ResultIndex,out:Path)->None:
+    # Use the FINAL learning-curve summary from the current project whenever it
+    # exists; do not silently use a similarly named file from an older run.
+    final_path = index.root / "scientific_validation" / "FINAL_learning_curves" / "learning_curve_summary.csv"
+    path = final_path if final_path.exists() else index.locate("learning_curve_summary.csv",prefer=["FINAL_learning_curves","learning_curves"],optional=True)
+    if not path:
+        raise FileNotFoundError("Missing results/scientific_validation/FINAL_learning_curves/learning_curve_summary.csv; run: D:/Anaconda/python.exe -u run.py learning-curves")
     d=read_csv_auto(path);fig,axes=plt.subplots(1,3,figsize=(13.5,3.8))
     groups=[(["LOI","PHRR","THR"],"R2_mean","R2_std","Core regression"),(["Tg","TS_MPa"],"R2_mean","R2_std","Auxiliary regression"),(["UL94_V0"],"Macro_F1_mean","Macro_F1_std","UL-94")]
     for ax,(tasks,mean,std,title) in zip(axes,groups):
@@ -381,7 +386,7 @@ def fig_s11_learning_curves(index:ResultIndex,out:Path)->None:
             if s.empty or mean not in s:continue
             ax.errorbar(s.train_fraction*100,s[mean],yerr=s[std] if std in s else None,marker="o",color=task_color(t),markerfacecolor="white",markeredgewidth=.9,capsize=3,label=task_label(t))
         ax.set_xlabel("Training molecule groups (%)");ax.set_ylabel("Macro-F1" if tasks==["UL94_V0"] else "$R^2$");ax.set_title(title);ax.legend(frameon=False);clean_axes(ax,grid="y")
-    fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75);save_figure(fig,out/"FigS7_learning_curves")
+    fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75);save_figure(fig,out/"FigS6_learning_curves")
 
 
 def fig_s12_bde_dataset(bde_path:Path,out:Path)->None:
@@ -418,7 +423,7 @@ def fig_s13_bde_diagnostics(index:ResultIndex,out:Path)->None:
     fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75);save_figure(fig,out/"FigS13_BDE_complete_diagnostics");top.to_csv(out/"FigS13_top8_BDE_errors.csv",index=False,encoding="utf-8-sig")
 
 
-def fig_s14_shap(index:ResultIndex,out:Path)->None:
+def fig_s8_shap(index:ResultIndex,out:Path)->None:
     tasks=["LOI","PHRR","THR","UL94_V0"]
     has_sample_level=all(_shap_long_paths(index,t) for t in tasks)
     fig,axes=plt.subplots(2,2,figsize=(13.0,10.0))
@@ -438,7 +443,7 @@ def fig_s14_shap(index:ResultIndex,out:Path)->None:
             add_no_data(ax,"Missing SHAP output")
         ax.set_title(task_label(task)); clean_axes(ax,grid="x")
     fig.tight_layout(pad=.9,w_pad=.75,h_pad=.75)
-    name="FigS9_core_task_SHAP_beeswarms" if has_sample_level else "FigS9_core_task_SHAP_stable_feature_importance"
+    name="FigS8_core_task_SHAP_beeswarms" if has_sample_level else "FigS8_core_task_SHAP_stable_feature_importance"
     save_figure(fig,out/name)
 
 def fig_s15_shap_stability(index:ResultIndex,out:Path)->None:
@@ -917,8 +922,8 @@ def fig_s5_compact_stability(index: ResultIndex, out: Path) -> None:
     save_figure(fig, out / "FigS5_outer_fold_stability_and_grouping_sensitivity")
 
 
-def fig_s8_compact_bde(index: ResultIndex, bde_path: Path, out: Path) -> None:
-    """Compact S8: formal P-C/P-N BDE subset composition and diagnostics."""
+def fig_s7_compact_bde(index: ResultIndex, bde_path: Path, out: Path) -> None:
+    """Compact S7: formal P-C/P-N BDE subset composition and diagnostics."""
     df = read_csv_auto(bde_path)
     bond = next((c for c in ["Bond_Type", "bond_type"] if c in df), None)
     target = next((c for c in ["BDE_kJ_mol", "BDE (kJ/mol)", "BDE_kJ/mol", "BDE"] if c in df), None)
@@ -958,7 +963,7 @@ def fig_s8_compact_bde(index: ResultIndex, bde_path: Path, out: Path) -> None:
         for i, v in enumerate(vc.values):
             axes[0, 0].text(i, v + ymax * .025, str(int(v)), ha="center", fontsize=8)
         pd.DataFrame({"Bond_Type": vc.index, "unique_samples": vc.values}).to_csv(
-            out / "FigS8_formal_PC_PN_counts.csv", index=False, encoding="utf-8-sig"
+            out / "FigS7_formal_PC_PN_counts.csv", index=False, encoding="utf-8-sig"
         )
     else:
         add_no_data(axes[0, 0], "Bond type unavailable")
@@ -993,10 +998,10 @@ def fig_s8_compact_bde(index: ResultIndex, bde_path: Path, out: Path) -> None:
         clean_axes(ax)
         panel_label(ax, f"({chr(97+i)})")
     fig.tight_layout(pad=.9, w_pad=.75, h_pad=.75)
-    save_figure(fig, out / "FigS8_BDE_PC_PN_dataset_and_diagnostics")
+    save_figure(fig, out / "FigS7_BDE_PC_PN_dataset_and_diagnostics")
 
-def fig_s10_compact_shap_stability(index: ResultIndex, out: Path) -> None:
-    """Compact S10: SHAP cross-fold rank stability with dedicated colorbar lane."""
+def fig_s9_compact_shap_stability(index: ResultIndex, out: Path) -> None:
+    """Compact S9: SHAP cross-fold rank stability with dedicated colorbar lane."""
     tasks = ["LOI", "PHRR", "THR", "UL94_V0", "Tg", "TS_MPa"]
     fig = plt.figure(figsize=(13.6, 8.6))
     gs = fig.add_gridspec(2, 4, width_ratios=[1, 1, 1, 0.06], wspace=0.42, hspace=0.34)
@@ -1015,12 +1020,12 @@ def fig_s10_compact_shap_stability(index: ResultIndex, out: Path) -> None:
     if im is not None: fig.colorbar(im, cax=cax, label="Spearman correlation")
     else: cax.axis("off")
     for i, ax in enumerate(axes): panel_label(ax, f"({chr(97+i)})")
-    save_figure(fig, out / "FigS10_SHAP_cross_fold_rank_stability", apply_layout=False)
-    pd.DataFrame(rows).to_csv(out / "FigS10_SHAP_stability_summary.csv", index=False, encoding="utf-8-sig")
+    save_figure(fig, out / "FigS9_SHAP_cross_fold_rank_stability", apply_layout=False)
+    pd.DataFrame(rows).to_csv(out / "FigS9_SHAP_stability_summary.csv", index=False, encoding="utf-8-sig")
 
 
-def fig_s11_compact_ad(index: ResultIndex, out: Path) -> None:
-    """Compact S11: applicability-domain diagnostics."""
+def fig_s10_compact_ad(index: ResultIndex, out: Path) -> None:
+    """Compact S10: applicability-domain diagnostics."""
     tasks = ["LOI", "PHRR", "THR", "UL94_V0"]
     fig, axes = plt.subplots(2, 2, figsize=(12.5, 8.8))
     for ax, task in zip(axes.ravel(), tasks):
@@ -1040,25 +1045,32 @@ def fig_s11_compact_ad(index: ResultIndex, out: Path) -> None:
         ax.axvline(.5, ls="--", lw=.8, color=PALETTE["gray"]); ax.axvline(.7, ls="--", lw=.8, color=PALETTE["gray"]); ax.set_xlabel("Max Tanimoto similarity"); ax.set_ylabel(ylabel); ax.set_title(task_label(task)); clean_axes(ax)
     for i, ax in enumerate(axes.ravel()): panel_label(ax, f"({chr(97+i)})")
     fig.tight_layout(pad=.9, w_pad=.75, h_pad=.75)
-    save_figure(fig, out / "FigS11_applicability_domain_diagnostics")
+    save_figure(fig, out / "FigS10_applicability_domain_diagnostics")
 
 
-def fig_s13_compact_candidates(index: ResultIndex, out: Path) -> None:
-    """Compact S13: complete cross-scenario screening funnel.
+def fig_s11_compact_candidates(index: ResultIndex, out: Path) -> None:
+    """Compact S11: complete cross-scenario screening funnel.
 
     The plotted counts are generated from the same function used for
     Supplementary Table S6A, so the figure and table cannot silently diverge.
     """
     # Local import avoids duplicating the cross-scenario counting rules and
-    # keeps Fig. S13 numerically locked to Table S6A.
+    # keeps Fig. S11 numerically locked to Table S6A.
     from build_paper_tables import table_s6a_screening_summary
 
     summary = table_s6a_screening_summary(index).copy()
     if summary.empty:
         raise FileNotFoundError("Candidate-screening summary is not available")
 
-    labels = summary["screening_stage"].astype(str).tolist()
-    vals = numeric(summary["candidate_count"]).fillna(0).astype(int).tolist()
+    # Table S6A intentionally uses manuscript-facing column labels
+    # ("Screening stage", "Candidates (n)").  Accept the legacy internal
+    # labels as well so S11 and Table S6A remain generated from the same data.
+    stage_col = next((c for c in ["Screening stage", "screening_stage", "stage"] if c in summary.columns), None)
+    count_col = next((c for c in ["Candidates (n)", "candidate_count", "count"] if c in summary.columns), None)
+    if stage_col is None or count_col is None:
+        raise KeyError(f"Unexpected Table S6A columns: {list(summary.columns)}")
+    labels = summary[stage_col].astype(str).tolist()
+    vals = numeric(summary[count_col]).fillna(0).astype(int).tolist()
     pretty_labels = [
         x.replace("m^-2", "m$^{-2}$").replace("cross-flux", "cross-scenario")
         for x in labels
@@ -1085,17 +1097,17 @@ def fig_s13_compact_candidates(index: ResultIndex, out: Path) -> None:
     ax.set_title("Candidate-screening funnel: formal pool to final prioritization")
     clean_axes(ax, grid="x")
     fig.tight_layout(pad=.9)
-    save_figure(fig, out / "FigS13_candidate_screening_funnel")
+    save_figure(fig, out / "FigS11_candidate_screening_funnel")
 
-    summary.rename(columns={"screening_stage": "stage", "candidate_count": "count"}).to_csv(
-        out / "FigS13_funnel_data_used.csv", index=False, encoding="utf-8-sig"
+    summary[[stage_col, count_col]].rename(columns={stage_col: "stage", count_col: "count"}).to_csv(
+        out / "FigS11_funnel_data_used.csv", index=False, encoding="utf-8-sig"
     )
 
 def _clean_legacy_supplementary_outputs(out: Path) -> None:
-    """Remove stale FigS2-FigS25 exports before compact-SI regeneration.
+    """Remove stale numbered supplementary exports before frozen-SI regeneration.
 
-    This prevents legacy full-SI filenames (e.g. FigS14/FigS22) from being
-    mistaken for current compact-SI outputs. FigS1 is intentionally untouched.
+    This prevents obsolete S12/S13 and legacy full-SI filenames from being
+    mistaken for the frozen S2-S11 outputs. FigS1 is intentionally untouched.
     """
     import re as _re
     if not out.exists():
@@ -1119,32 +1131,30 @@ def main()->None:
     plt.rcParams["figure.dpi"] = min(max(220, args.dpi // 2), 450)
     df=read_csv_auto(args.data);index=ResultIndex(args.results_root);manifest=[]
     jobs=[
-        ("S2",fig_s2_compact_dataset,(df,args.output)),
-        ("S3",fig_s3_compact_chemical_space,(df,args.output)),
-        ("S4",fig_s7_development_configs,(index,args.output)),
-        ("S5",fig_s5_compact_stability,(index,args.output)),
-        ("S6",fig_s10_null_tests,(index,args.output)),
-        ("S7",fig_s11_learning_curves,(index,args.output)),
-        ("S8",fig_s8_compact_bde,(index,args.bde_data,args.output)),
-        ("S9",fig_s14_shap,(index,args.output)),
-        ("S10",fig_s10_compact_shap_stability,(index,args.output)),
-        ("S11",fig_s11_compact_ad,(index,args.output)),
-        ("S12",fig_s22_ul94_folds,(index,args.output)),
-        ("S13",fig_s13_compact_candidates,(index,args.output)),
+        ("S2", "Dataset completeness and target distributions.", fig_s2_compact_dataset, (df,args.output)),
+        ("S3", "Chemical-space and scaffold diversity of the DOPO/EP dataset.", fig_s3_compact_chemical_space, (df,args.output)),
+        ("S4", "Frozen task-specific configurations and model-selection frequencies across the FINAL outer folds.", fig_s4_frozen_configs, (index,args.output)),
+        ("S5", "Dummy baselines and Y-scrambling null tests.", fig_s5_null_tests, (index,args.output)),
+        ("S6", "Learning curves as a function of independent training-group size.", fig_s6_learning_curves, (index,args.output)),
+        ("S7", "Formal P-C/P-N BDE dataset composition and prediction diagnostics.", fig_s7_compact_bde, (index,args.bde_data,args.output)),
+        ("S8", "SHAP beeswarm plots for the core prediction tasks.", fig_s8_shap, (index,args.output)),
+        ("S9", "Cross-fold stability of SHAP feature rankings for the core prediction tasks.", fig_s9_compact_shap_stability, (index,args.output)),
+        ("S10", "Supplementary applicability-domain diagnostics for the core prediction tasks.", fig_s10_compact_ad, (index,args.output)),
+        ("S11", "Candidate-screening funnel from the formal screening library to the final cross-scenario priority set.", fig_s11_compact_candidates, (index,args.output)),
     ]
-    for name,func,func_args in jobs:
+    for name,caption,func,func_args in jobs:
         try:
             func(*func_args)
-            manifest.append({"item":name,"status":"generated","error":""})
+            manifest.append({"item":name,"caption":caption,"status":"generated","error":""})
             print(f"[OK] {name}")
         except Exception as exc:
-            manifest.append({"item":name,"status":"skipped","error":f"{type(exc).__name__}: {exc}"})
+            manifest.append({"item":name,"caption":caption,"status":"skipped","error":f"{type(exc).__name__}: {exc}"})
             print(f"[SKIP] {name}: {exc}")
-    manifest.insert(0,{"item":"S1","status":"manual","error":"Use the real literature-search log; initial counts must not be estimated."})
+    manifest.insert(0,{"item":"S1","caption":"Verified literature inclusion and data-extraction workflow.","status":"manual","error":"Use the real literature-search log; initial counts must not be estimated."})
     pd.DataFrame(manifest).to_csv(args.output/"supplementary_figure_manifest.csv",index=False,encoding="utf-8-sig")
     index.save_manifest(args.output/"selected_input_files.csv")
     write_json(args.output/"run_config.json",vars(args))
-    print(f"\n[DONE] Compact supplementary figures: {args.output}")
+    print(f"\n[DONE] Frozen supplementary figures S2-S11: {args.output}")
 
 
 if __name__=="__main__":main()

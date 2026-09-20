@@ -1,7 +1,7 @@
 {
-  "data": "data\\DOPO_EP_new_with_BDE.csv",
-  "results_root": "results",
-  "task_config": "config\\task_config.json",
-  "output": "results\\09_PaperTables",
+  "data": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project\\data\\DOPO_EP_new_with_BDE.csv",
+  "results_root": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project\\results",
+  "task_config": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project\\config\\task_config.json",
+  "output": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project\\results\\09_PaperTables",
   "top_errors": 20
 }

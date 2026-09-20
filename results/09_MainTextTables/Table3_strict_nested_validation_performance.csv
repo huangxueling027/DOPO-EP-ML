@@ -1,7 +1,0 @@
-﻿Task,n,Feature view,K,Outer folds,Primary metric,Primary performance,RMSE,MAE,Accuracy,Balanced accuracy,ROC-AUC
-LOI,599,compact,260,5,R²,0.716 ± 0.036,2.60 ± 0.46,1.99 ± 0.41,,,
-PHRR,406,compact,330,5,R²,0.604 ± 0.042,216.78 ± 40.06,161.57 ± 23.95,,,
-THR,397,descriptors,30,5,R²,0.483 ± 0.133,18.17 ± 4.57,12.43 ± 2.50,,,
-UL-94,599,morgan_r3,ALL,5,Macro-F1,0.779 ± 0.031,,,0.781 ± 0.029,0.788 ± 0.039,0.869 ± 0.037
-T_g,357,morgan_r3,270,5,R²,0.521 ± 0.097,15.72 ± 5.10,10.88 ± 2.49,,,
-TS,256,compact,140,5,R²,0.462 ± 0.089,11.56 ± 1.79,9.35 ± 1.53,,,

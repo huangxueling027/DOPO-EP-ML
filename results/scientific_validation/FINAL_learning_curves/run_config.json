@@ -1,0 +1,11 @@
+{
+  "input": "C:\\Users\\26981\\OneDrive\\Desktop\\python_work\\ML_DOPO_Project_V5\\data\\DOPO_EP_new_with_BDE.csv",
+  "tasks": "LOI,PHRR,THR,UL94_V0,Tg,TS_MPa",
+  "fractions": "0.2,0.4,0.6,0.8,1.0",
+  "repeats": 5,
+  "test_size": 0.2,
+  "model": "ExtraTrees",
+  "random_state": 42,
+  "results": "results\\scientific_validation\\FINAL_learning_curves",
+  "row_policy": "baseline_inclusive"
+}

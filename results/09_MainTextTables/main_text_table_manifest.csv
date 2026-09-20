@@ -1,6 +1,4 @@
-﻿table,file,rows,recommended_caption,recommended_section
-Table1,Table1_dataset_and_task_overview.csv,6,Dataset scale and prediction-task overview,Data and methods
-Table2,Table2_frozen_model_configurations.csv,6,Frozen feature and validation configurations,Machine-learning methods
-Table3,Table3_strict_nested_validation_performance.csv,6,Five-fold outer-test performance under strict nested grouped validation,Results: predictive performance
-Table4,Table4_robustness_and_BDE_summary.csv,4,"Grouping sensitivity, BDE ablation, and SHAP stability",Results: robustness and interpretation
-Table5,Table5_top10_virtual_screening_candidates.csv,10,Top 10 candidates from the final combined 35/50 kW/m² stable screening,Results: virtual screening
+﻿table,file,rows,caption
+Table 1,Table 1. Outer-test performance under strict 5x5 nested grouped cross-validation.csv,6,Table 1. Outer-test performance under strict 5×5 nested grouped cross-validation.
+Table 2,"Table 2. Grouping robustness, BDE ablation, and cross-fold SHAP stability of the core flame-retardancy models.csv",4,"Table 2. Grouping robustness, BDE ablation, and cross-fold SHAP stability of the core flame-retardancy models."
+Table 3,Table 3. Top 10 cross-scenario priority DOPO-derived candidates identified by multi-objective virtual screening.csv,10,Table 3. Top 10 cross-scenario priority DOPO-derived candidates identified by multi-objective virtual screening.

@@ -1,3 +1,3 @@
-﻿Bond_Type,prediction_rows,unique_samples,mean_true_kJ_mol,mean_pred_kJ_mol,mean_abs_error_kJ_mol,median_abs_error_kJ_mol,p95_abs_error_kJ_mol
-P-C,1145,229,266.2759825327511,266.3150570825523,13.688594926378379,9.785398814107594,40.010747654876006
-P-N,50,10,362.67,351.9893968135054,35.52186793412489,31.973102716093308,74.05941404369977
+﻿Bond type,Prediction rows,Unique samples,Mean observed BDE (kJ mol^-1),Mean predicted BDE (kJ mol^-1),MAE (kJ mol^-1),Median AE (kJ mol^-1),95th-percentile AE (kJ mol^-1)
+P-C,1145,229,266.276,266.315,13.689,9.785,40.011
+P-N,50,10,362.67,351.989,35.522,31.973,74.059

@@ -1,6 +1,6 @@
 {
-  "data": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project_V5\\data\\DOPO_EP_new_with_BDE.csv",
-  "bde_data": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project_V5\\07_BDE\\data\\BDE.csv",
+  "data": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project\\data\\DOPO_EP_new_with_BDE.csv",
+  "bde_data": "C:\\Users\\26981\\OneDrive\\Desktop\\课题1\\python_work\\ML_DOPO_Project\\07_BDE\\data\\BDE.csv",
   "results_root": "results",
   "output": "results\\09_PaperFigures\\supplementary",
   "dpi": 900
